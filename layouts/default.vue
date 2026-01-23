@@ -1,23 +1,19 @@
 <script setup lang="ts">
 /**
  * Default Layout
- * Provides consistent structure with Header for all pages
+ * Modern minimal design with grain texture overlay
  *
  * Features:
  * - Fixed header with navigation
- * - Main content area with proper padding for header
- * - Animated gradient background (dark mode only)
+ * - Subtle grain texture overlay
+ * - Clean, minimal structure
  */
 
-// Import header component
 import AppHeader from '~/components/Header/AppHeader.vue'
 </script>
 
 <template>
-  <div class="min-h-screen bg-background text-text-primary transition-colors duration-300">
-    <!-- Animated gradient background (visible in dark mode only) -->
-    <div class="animated-gradient-bg" />
-
+  <div class="min-h-screen bg-background text-text-primary transition-colors duration-300 grain-overlay">
     <!-- Fixed Header -->
     <AppHeader />
 

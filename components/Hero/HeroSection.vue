@@ -1,33 +1,18 @@
 <script setup lang="ts">
 /**
  * HeroSection Component
- * Main hero/landing section with intro text and rotating badge
- *
- * Features:
- * - Responsive layout with rotating badge
- * - Copy email functionality
- * - Smooth scroll to projects
- * - Theme-aware styling
+ * Minimal hero with gradient blobs, metrics, and scroll indicator
  */
 
-import RotatingBadge from './RotatingBadge.vue'
+import StatusIndicator from '~/components/ui/StatusIndicator.vue'
+import SocialLinks from '~/components/ui/SocialLinks.vue'
 
-// Email for copy functionality
-const email = 'gagandoddanna@gmail.com'
-const copied = ref(false)
-
-// Copy email to clipboard
-const copyEmail = async () => {
-  try {
-    await navigator.clipboard.writeText(email)
-    copied.value = true
-    setTimeout(() => {
-      copied.value = false
-    }, 2000)
-  } catch (err) {
-    console.error('Failed to copy email:', err)
-  }
-}
+// Metrics data
+const metrics = [
+  { value: '12k+', label: 'Nodes Optimized' },
+  { value: '60%', label: 'Faster Renders' },
+  { value: '3+', label: 'Years Building' },
+]
 
 // Smooth scroll to projects section
 const scrollToProjects = () => {
@@ -36,141 +21,107 @@ const scrollToProjects = () => {
     projectsSection.scrollIntoView({ behavior: 'smooth' })
   }
 }
+
+// Magnetic button effect
+const buttonRef = ref<HTMLButtonElement | null>(null)
+const buttonTransform = ref({ x: 0, y: 0 })
+
+const handleMouseMove = (e: MouseEvent) => {
+  if (!buttonRef.value) return
+  const rect = buttonRef.value.getBoundingClientRect()
+  const x = e.clientX - rect.left - rect.width / 2
+  const y = e.clientY - rect.top - rect.height / 2
+  buttonTransform.value = { x: x * 0.15, y: y * 0.15 }
+}
+
+const handleMouseLeave = () => {
+  buttonTransform.value = { x: 0, y: 0 }
+}
 </script>
 
 <template>
   <section
     id="hero"
-    class="min-h-[calc(100vh-4rem)] flex items-center relative overflow-hidden"
+    class="min-h-screen flex items-center relative overflow-hidden"
   >
-    <!-- Animated background gradient (only visible in dark mode via CSS) -->
-    <div class="animated-gradient-bg" />
+    <!-- Gradient Blobs -->
+    <div class="gradient-blob gradient-blob-1" aria-hidden="true" />
+    <div class="gradient-blob gradient-blob-2" aria-hidden="true" />
 
-    <div class="section-container w-full py-16 lg:py-0">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        <!-- Left side: Text content -->
-        <div class="space-y-8 animate-fade-in-up">
-          <!-- Status badge -->
-          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface border border-border shadow-sm">
-            <span class="w-2 h-2 rounded-full bg-accent-primary animate-glow-pulse" />
-            <span class="text-sm text-text-secondary font-medium">
-              Available for new opportunities
-            </span>
-          </div>
+    <div class="section-container w-full py-20 lg:py-0 relative z-10">
+      <div class="max-w-4xl space-y-10">
+        <!-- Status indicator -->
+        <StatusIndicator class="animate-fade-up" />
 
-          <!-- Main heading -->
-          <div class="space-y-4">
-            <h1 class="heading-1">
-              Hi, I'm
-              <span class="text-gradient">Gagan</span>
-            </h1>
-            <p class="body-lg max-w-xl text-balance">
-              Frontend Engineer specializing in Vue.js, React, and scalable
-              architectures with 2+ years of production experience.
-            </p>
-          </div>
-
-          <!-- CTA Buttons -->
-          <div class="flex flex-wrap gap-4">
-            <!-- Primary: View Work -->
-            <button
-              class="btn-primary flex items-center gap-2 group"
-              @click="scrollToProjects"
-            >
-              <span>View Selected Work</span>
-              <svg
-                class="w-5 h-5 transition-transform group-hover:translate-y-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                />
-              </svg>
-            </button>
-
-            <!-- Secondary: Copy Email -->
-            <button
-              class="btn-secondary flex items-center gap-2 relative"
-              :class="{ 'copy-feedback copied': copied }"
-              @click="copyEmail"
-            >
-              <svg
-                class="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  v-if="!copied"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-                />
-                <path
-                  v-else
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-              <span>{{ copied ? 'Copied!' : 'Copy Email' }}</span>
-            </button>
-          </div>
-
-          <!-- Quick stats -->
-          <div class="flex gap-8 pt-4">
-            <div>
-              <div class="text-2xl font-bold text-text-primary">12k+</div>
-              <div class="text-sm text-text-muted">Nodes Optimized</div>
-            </div>
-            <div>
-              <div class="text-2xl font-bold text-text-primary">4+</div>
-              <div class="text-sm text-text-muted">Companies</div>
-            </div>
-            <div>
-              <div class="text-2xl font-bold text-text-primary">5</div>
-              <div class="text-sm text-text-muted">Certifications</div>
-            </div>
-          </div>
+        <!-- Main heading -->
+        <div class="space-y-4 animate-fade-up" style="animation-delay: 100ms;">
+          <h1 class="heading-display">
+            <span class="text-gradient">Gagan</span>
+            <span class="block text-text-primary">Doddanna</span>
+          </h1>
         </div>
 
-        <!-- Right side: Rotating badge -->
-        <div class="flex justify-center lg:justify-end animate-fade-in-up delay-300">
-          <RotatingBadge
-            :size="280"
-            class="hidden sm:flex"
-          />
-          <RotatingBadge
-            :size="220"
-            class="flex sm:hidden"
-          />
+        <!-- Tagline -->
+        <p
+          class="text-xl sm:text-2xl text-text-secondary max-w-xl text-balance animate-fade-up"
+          style="animation-delay: 200ms;"
+        >
+          Frontend engineer crafting performant interfaces with Vue, React, and modern web architectures.
+        </p>
+
+        <!-- Actions row -->
+        <div
+          class="flex flex-wrap items-center gap-6 animate-fade-up"
+          style="animation-delay: 300ms;"
+        >
+          <!-- Magnetic Primary CTA -->
+          <button
+            ref="buttonRef"
+            class="magnetic-btn btn-primary group"
+            :style="{
+              transform: `translate(${buttonTransform.x}px, ${buttonTransform.y}px)`
+            }"
+            @mousemove="handleMouseMove"
+            @mouseleave="handleMouseLeave"
+            @click="scrollToProjects"
+          >
+            <span class="magnetic-btn-inner flex items-center gap-2">
+              <span>View Work</span>
+              <span class="i-ph-arrow-down w-5 h-5 transition-transform group-hover:translate-y-1" />
+            </span>
+          </button>
+
+          <!-- Social Links -->
+          <SocialLinks />
+        </div>
+
+        <!-- Metrics -->
+        <div
+          class="flex flex-wrap gap-8 pt-8 border-t border-border animate-fade-up"
+          style="animation-delay: 400ms;"
+        >
+          <div
+            v-for="metric in metrics"
+            :key="metric.label"
+            class="space-y-1"
+          >
+            <div class="metric-value">{{ metric.value }}</div>
+            <div class="text-sm text-text-muted">{{ metric.label }}</div>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Scroll indicator -->
-    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce-soft hidden lg:flex flex-col items-center gap-2">
+    <div
+      class="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-2 animate-fade-up"
+      style="animation-delay: 500ms;"
+      aria-hidden="true"
+    >
       <span class="text-xs text-text-muted uppercase tracking-wider">Scroll</span>
-      <svg
-        class="w-5 h-5 text-text-muted"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M19 14l-7 7m0 0l-7-7m7 7V3"
-        />
-      </svg>
+      <div class="w-5 h-8 rounded-full border-2 border-border flex justify-center pt-1.5">
+        <div class="w-1 h-2 rounded-full bg-text-muted animate-float" />
+      </div>
     </div>
   </section>
 </template>

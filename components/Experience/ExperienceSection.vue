@@ -1,34 +1,37 @@
 <script setup lang="ts">
 /**
  * ExperienceSection Component
- * Timeline display of work experience
+ * Minimal timeline display of work experience
+ *
+ * Features:
+ * - Clean, left-aligned timeline
+ * - Company + Role + Duration
+ * - Minimal design
  */
 
-import ExperienceCard from './ExperienceCard.vue'
-import type { Experience } from './ExperienceCard.vue'
+interface Experience {
+  title: string
+  company: string
+  period: string
+  current?: boolean
+}
 
 const experiences: Experience[] = [
   {
     title: 'Software Engineer',
     company: 'Arontel (Remofirst)',
     period: 'Jul 2025 - Present',
-    location: 'Chicago, IL',
-    description: 'Building large-scale Vue/Nuxt dashboards for telecom platforms. Led performance optimization reducing render times from 600ms to 250ms for 12k+ node datasets.',
     current: true,
   },
   {
     title: 'Software Engineer',
     company: 'YES HardSoft Solutions',
     period: 'Dec 2024 - May 2025',
-    location: 'Remote',
-    description: 'Frontend architecture and complete website revamp projects using Next.js and modern React patterns.',
   },
   {
     title: 'Full-Stack Engineer',
     company: '2ndSight.ai',
     period: 'Aug 2024 - Nov 2024',
-    location: 'Remote',
-    description: 'Developed AI-powered interview platform with React, Next.js, and OpenAI integration. Implemented real-time transcription and WebSocket connections.',
   },
 ]
 </script>
@@ -46,15 +49,25 @@ const experiences: Experience[] = [
         </h2>
       </div>
 
-      <!-- Experience timeline -->
-      <div class="space-y-6">
-        <ExperienceCard
+      <!-- Timeline -->
+      <div class="space-y-0">
+        <div
           v-for="(exp, index) in experiences"
           :key="exp.company"
-          :experience="exp"
-          class="reveal-item"
-          :style="{ animationDelay: `${index * 100}ms` }"
-        />
+          class="timeline-item py-6 reveal-item"
+          :style="{ animationDelay: `${index * 75}ms` }"
+        >
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div>
+              <h3 class="text-lg font-semibold text-text-primary flex items-center gap-2">
+                {{ exp.title }}
+                <span v-if="exp.current" class="badge-accent text-xs">Current</span>
+              </h3>
+              <p class="text-accent font-medium">{{ exp.company }}</p>
+            </div>
+            <span class="text-sm text-text-muted">{{ exp.period }}</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>

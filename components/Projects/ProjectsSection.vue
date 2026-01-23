@@ -1,7 +1,12 @@
 <script setup lang="ts">
 /**
  * ProjectsSection Component
- * Grid display of selected work/projects
+ * Bento grid display of selected work/projects
+ *
+ * Features:
+ * - Bento grid layout with mixed sizes
+ * - Featured project as large card
+ * - Clean, minimal design
  */
 
 import ProjectCard from './ProjectCard.vue'
@@ -9,37 +14,38 @@ import type { Project } from './ProjectCard.vue'
 
 const projects: Project[] = [
   {
-    title: 'Enterprise Telecom Dashboard',
-    description: 'Production dashboard handling 12k+ node datasets with optimized rendering (600ms → 250ms). Virtual scrolling, reactive state management, and real-time updates.',
-    tech: ['Vue 3', 'Nuxt', 'TypeScript', 'Pinia', 'Supabase'],
+    title: 'volivr',
+    description: 'Production dashboard handling 12k+ node datasets with optimized rendering. Reduced render times from 600ms to 250ms through virtual scrolling and reactive state management.',
+    tech: ['Vue 3', 'Nuxt', 'TypeScript', 'Pinia'],
+    featured: true,
     links: {
-      caseStudy: '#', // TODO: Add actual link
+      caseStudy: '#',
     },
   },
   {
-    title: 'Real-time AI Interview Platform',
-    description: 'Interactive interview platform with AI-powered questions, real-time transcription, and session management. Built scalable backend with AWS and WebSocket connections.',
-    tech: ['React', 'Next.js', 'OpenAI', 'Firebase', 'WebSockets'],
+    title: 'AI Interview Platform',
+    description: 'Real-time interview platform with AI-powered questions and live transcription. Built scalable backend with WebSocket connections.',
+    tech: ['React', 'Next.js', 'OpenAI', 'Firebase'],
     links: {
-      caseStudy: '#', // TODO: Add actual link
-      github: '#', // TODO: Add actual link
+      caseStudy: '#',
+      github: '#',
     },
   },
   {
-    title: 'Movie Database & Streaming Platform',
-    description: 'End-to-end movie platform with user authentication, cloud storage, and RESTful APIs. Complete CI/CD pipeline with AWS deployment and Swagger documentation.',
-    tech: ['Next.js', 'Node.js', 'PostgreSQL', 'AWS', 'JWT'],
+    title: 'Movie Database Platform',
+    description: 'End-to-end movie platform with authentication, cloud storage, and RESTful APIs. Complete CI/CD pipeline.',
+    tech: ['Next.js', 'Node.js', 'PostgreSQL', 'AWS'],
     links: {
-      demo: '#', // TODO: Add actual link
-      github: '#', // TODO: Add actual link
+      demo: '#',
+      github: '#',
     },
   },
   {
-    title: 'Enterprise Website Redesign',
-    description: 'Complete redesign and rebuild of corporate website. Improved load time, modern design system, and responsive across all devices.',
-    tech: ['Next.js', 'Tailwind', 'Figma', 'UX Design'],
+    title: 'Corporate Website Redesign',
+    description: 'Complete redesign improving load time, modern design system, and responsive experience across all devices.',
+    tech: ['Next.js', 'Tailwind', 'Figma'],
     links: {
-      demo: '#', // TODO: Add actual link
+      demo: '#',
     },
   },
 ]
@@ -48,7 +54,7 @@ const projects: Project[] = [
 <template>
   <section
     id="projects"
-    class="section-padding section-gradient-blue"
+    class="section-padding"
   >
     <div class="section-container">
       <!-- Section header -->
@@ -56,19 +62,22 @@ const projects: Project[] = [
         <h2 class="heading-2">
           Selected Work
         </h2>
-        <p class="body-lg max-w-2xl">
-          A curated list of projects from the last 2 years
+        <p class="body-base text-text-muted max-w-lg">
+          Featured projects from the last 2 years
         </p>
       </div>
 
-      <!-- Projects grid -->
-      <div class="grid-projects">
+      <!-- Bento Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
         <ProjectCard
           v-for="(project, index) in projects"
           :key="project.title"
           :project="project"
-          class="reveal-item"
-          :style="{ animationDelay: `${index * 100}ms` }"
+          :class="[
+            'reveal-item',
+            project.featured && 'md:col-span-2'
+          ]"
+          :style="{ animationDelay: `${index * 75}ms` }"
         />
       </div>
     </div>
