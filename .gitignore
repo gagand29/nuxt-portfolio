@@ -41,3 +41,7 @@ coverage
 
 # Build files
 *.tsbuildinfo
+
+# Private docs (not for public repo)
+README.md
+DESIGN_DOC.md

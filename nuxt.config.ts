@@ -2,26 +2,16 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
 export default defineNuxtConfig({
-  // Nuxt 4 compatibility settings
   compatibilityDate: '2024-11-01',
-
-  // Enable Nuxt DevTools for development
   devtools: { enabled: true },
 
-  // Modules
   modules: ['@unocss/nuxt'],
 
-  // CSS Files
-  css: [
-    '@/assets/styles/main.css',
-    '@/assets/styles/animations.css',
-  ],
+  css: ['@/assets/styles/main.css'],
 
-  // App Configuration
   app: {
-    // HTML Head configuration
     head: {
-      title: 'Gagan Doddanna - Frontend Engineer',
+      title: 'Gagan Doddanna — Product Engineer',
       htmlAttrs: {
         lang: 'en',
       },
@@ -30,28 +20,16 @@ export default defineNuxtConfig({
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         {
           name: 'description',
-          content: 'Frontend Engineer specializing in Vue.js, React, and scalable architectures with 2+ years of production experience.'
+          content: 'Frontend-heavy full-stack engineer building scalable product systems. Vue, React, TypeScript, Cloud Infrastructure.'
         },
-        { name: 'theme-color', content: '#000000' },
-        // Open Graph
+        { name: 'theme-color', content: '#0B1220' },
         { property: 'og:type', content: 'website' },
-        { property: 'og:title', content: 'Gagan Doddanna - Frontend Engineer' },
-        {
-          property: 'og:description',
-          content: 'Frontend Engineer specializing in Vue.js, React, and scalable architectures.'
-        },
-        { property: 'og:image', content: '/og-image.png' },
-        // Twitter Card
+        { property: 'og:title', content: 'Gagan Doddanna — Product Engineer' },
+        { property: 'og:description', content: 'I build scalable product systems, not just interfaces.' },
         { name: 'twitter:card', content: 'summary_large_image' },
-        { name: 'twitter:title', content: 'Gagan Doddanna - Frontend Engineer' },
-        {
-          name: 'twitter:description',
-          content: 'Frontend Engineer specializing in Vue.js, React, and scalable architectures.'
-        },
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-        // Google Fonts - Inter
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         {
@@ -62,7 +40,6 @@ export default defineNuxtConfig({
     },
   },
 
-  // Enable smooth scroll behavior
   router: {
     options: {
       scrollBehaviorType: 'smooth',

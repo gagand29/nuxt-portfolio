@@ -1,36 +1,22 @@
 <script setup lang="ts">
 /**
- * App.vue - Root component for the Nuxt application
- * Initializes color mode and sets up global head configuration
- *
- * Theme Strategy:
- * - Light mode is default for professional appearance
- * - Dark mode available via toggle in header
- * - Preference persisted in localStorage
+ * App Root
+ * Minimal setup with color mode
  */
 
-// Initialize color mode on app mount
-const { colorMode } = useColorMode()
+const { colorMode, toggleColorMode } = useColorMode()
 
-// Page meta configuration
 useHead({
-  titleTemplate: (titleChunk) => {
-    return titleChunk ? `${titleChunk} | Gagan Doddanna` : 'Gagan Doddanna - Frontend Engineer'
-  },
-  // Prevent flash of wrong theme by setting initial class
+  titleTemplate: (title) => title ? `${title} — Gagan Doddanna` : 'Gagan Doddanna — Product Engineer',
   htmlAttrs: {
     class: computed(() => colorMode.value === 'dark' ? 'dark' : ''),
   },
 })
+
+// Provide toggle function globally
+provide('toggleColorMode', toggleColorMode)
 </script>
 
 <template>
-  <!-- NuxtLayout automatically uses layouts/default.vue -->
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
+  <NuxtPage />
 </template>
-
-<style>
-/* App-level styles handled in main.css */
-</style>
