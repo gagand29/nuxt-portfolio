@@ -40,27 +40,27 @@ const projects = [
   {
     slug: 'arontel-platform',
     title: 'Arontel Enterprise Platform',
-    description: 'Large-scale platform dashboards for telecom and IVR systems. Data-heavy UIs handling 4k-12k+ node datasets.',
-    outcome: 'Reduced interaction latency from 600ms to 250ms through virtual scrolling and optimized reactivity.',
-    tech: ['Vue 3', 'Nuxt', 'TypeScript', 'Pinia', 'Supabase'],
+    description: 'Control system for live telecom operations. 12k+ node IVR trees, real-time dashboards.',
+    outcome: '60% faster rendering · <300ms latency',
+    tech: ['Vue 3', 'Nuxt', 'TypeScript', 'Pinia'],
     featured: true,
-    modules: ['IVR Platform', 'Conference System', 'Admin Dashboards', 'Real-time Sync'],
+    image: '/projects/after-ivr-m.png',
   },
   {
     slug: 'ai-interview',
     title: 'AI Interview Platform',
-    description: 'Real-time AI-powered interview system with live transcription and session handling.',
-    outcome: 'WebSocket architecture with OpenAI integration serving concurrent sessions.',
-    tech: ['React', 'Next.js', 'OpenAI', 'Firebase'],
+    description: 'Real-time AI interviews with live transcription.',
+    outcome: '<500ms response · 95% accuracy',
+    tech: ['React', 'Next.js', 'OpenAI'],
     company: '2ndSight.ai',
   },
   {
     slug: 'movie-platform',
     title: 'Movie Database Platform',
-    description: 'Full-stack platform with authentication, cloud storage, and automated deployments.',
-    outcome: 'Deployed on AWS with EC2, S3, RDS, and GitHub Actions CI/CD.',
-    tech: ['Next.js', 'Node.js', 'PostgreSQL', 'AWS'],
-    company: 'Personal Project',
+    description: 'Full-stack app with auth and CI/CD pipeline.',
+    outcome: 'AWS deployment · Zero downtime',
+    tech: ['Next.js', 'Node.js', 'AWS'],
+    company: 'Personal',
   },
 ]
 
@@ -148,10 +148,10 @@ const skills = {
 
     <main id="main" class="pt-16">
       <!-- Hero -->
-      <section class="py-16 md:py-20">
+      <section class="min-h-[85vh] flex items-center py-16 md:py-20">
         <div class="container">
-          <div class="max-w-2xl space-y-4">
-            <!-- Current Status - Employed + Open to Opportunities -->
+          <div class="max-w-2xl space-y-5">
+            <!-- Current Status -->
             <div class="flex flex-wrap items-center gap-3 text-sm fade-in">
               <span class="inline-flex items-center gap-1.5 text-text-secondary">
                 <span class="status-dot" aria-hidden="true" />
@@ -164,17 +164,17 @@ const skills = {
               </span>
             </div>
 
-            <!-- Name - Primary visual focus -->
+            <!-- Name -->
             <h1 class="text-display fade-in delay-1 hero-name">
               Gagan Doddanna
             </h1>
 
-            <!-- Role + Years -->
+            <!-- Role -->
             <p class="text-h3 text-text-secondary fade-in delay-2">
               Frontend Engineer <span class="text-text-muted">•</span> 2+ Years
             </p>
 
-            <!-- Credentials Inline -->
+            <!-- Credentials -->
             <div class="flex flex-wrap items-center gap-2 text-sm text-text-secondary fade-in delay-3">
               <span class="inline-flex items-center gap-1.5">
                 <span class="i-ph-graduation-cap w-4 h-4 text-highlight" aria-hidden="true" />
@@ -187,9 +187,9 @@ const skills = {
               </span>
             </div>
 
-            <!-- Tagline - Short & Impactful -->
-            <p class="text-body-lg max-w-md fade-in delay-3 pt-2">
-              I build data-heavy UIs and enterprise platforms that scale.
+            <!-- Tagline - Confident -->
+            <p class="text-body-lg max-w-lg fade-in delay-3 pt-2">
+              I build complex frontend systems — large-scale dashboards, real-time UIs, and production platforms that handle thousands of data points.
             </p>
 
             <!-- CTAs -->
@@ -201,6 +201,14 @@ const skills = {
               <a href="/resume.pdf" class="btn-secondary" target="_blank" rel="noopener">
                 Resume
                 <span class="i-ph-file-text w-4 h-4" aria-hidden="true" />
+              </a>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="pt-8 fade-in delay-4">
+              <a href="#work" class="inline-flex items-center gap-2 text-text-muted text-sm hover:text-text transition-colors">
+                <span class="i-ph-arrow-down w-4 h-4 animate-bounce" aria-hidden="true" />
+                Scroll to see work
               </a>
             </div>
           </div>
@@ -234,30 +242,35 @@ const skills = {
           <div class="space-y-4">
             <!-- Featured Project (Arontel) -->
             <NuxtLink :to="`/projects/${projects[0].slug}`" class="card card-featured card-interactive block">
-              <div class="flex flex-wrap items-center gap-2 mb-3">
-                <span class="badge-highlight text-xs">Featured</span>
-                <span class="text-xs text-text-muted">at Remofirst (Arontel)</span>
+              <div class="flex flex-col md:flex-row gap-6">
+                <!-- Image Preview -->
+                <div v-if="projects[0].image" class="featured-image-container">
+                  <img :src="projects[0].image" :alt="projects[0].title" class="featured-image" />
+                </div>
+                <!-- Content -->
+                <div class="flex-1">
+                  <div class="flex flex-wrap items-center gap-2 mb-2">
+                    <span class="badge-highlight text-xs">Featured</span>
+                    <span class="text-xs text-text-muted">at Arontel</span>
+                  </div>
+                  <h3 class="text-h3 mb-2">{{ projects[0].title }}</h3>
+                  <p class="text-text-secondary text-sm mb-3">{{ projects[0].description }}</p>
+                  <div class="flex flex-wrap gap-1.5 mb-3">
+                    <span
+                      v-for="tech in projects[0].tech"
+                      :key="tech"
+                      class="badge badge-tech text-xs"
+                    >
+                      {{ tech }}
+                    </span>
+                  </div>
+                  <p class="text-highlight text-sm font-medium mb-4">{{ projects[0].outcome }}</p>
+                  <span class="text-highlight text-sm inline-flex items-center gap-2 font-medium">
+                    View Case Study
+                    <span class="i-ph-arrow-right w-4 h-4" aria-hidden="true" />
+                  </span>
+                </div>
               </div>
-              <h3 class="text-h3 mb-2">{{ projects[0].title }}</h3>
-              <div class="flex flex-wrap gap-1.5 mb-3">
-                <span
-                  v-for="tech in projects[0].tech"
-                  :key="tech"
-                  class="badge badge-tech text-xs"
-                >
-                  {{ tech }}
-                </span>
-              </div>
-              <p class="text-body mb-2">{{ projects[0].description }}</p>
-              <!-- Module tags -->
-              <p class="text-xs text-text-muted mb-3">
-                {{ projects[0].modules.join(' • ') }}
-              </p>
-              <p class="text-small text-highlight mb-4">{{ projects[0].outcome }}</p>
-              <span class="text-highlight text-sm inline-flex items-center gap-2 font-medium">
-                View Project
-                <span class="i-ph-arrow-right w-4 h-4" aria-hidden="true" />
-              </span>
             </NuxtLink>
 
             <!-- Other Projects Grid (2 projects) -->
@@ -268,23 +281,19 @@ const skills = {
                 :to="`/projects/${project.slug}`"
                 class="card card-interactive block"
               >
-                <div class="flex flex-wrap items-center gap-1.5 mb-3">
+                <p class="text-text-muted text-xs mb-2">{{ project.company }}</p>
+                <h3 class="font-semibold mb-2">{{ project.title }}</h3>
+                <p class="text-text-secondary text-sm mb-3">{{ project.description }}</p>
+                <div class="flex flex-wrap gap-1.5 mb-3">
                   <span
-                    v-for="tech in project.tech.slice(0, 3)"
+                    v-for="tech in project.tech"
                     :key="tech"
                     class="badge badge-tech text-xs"
                   >
                     {{ tech }}
                   </span>
                 </div>
-                <h3 class="font-semibold mb-1">{{ project.title }}</h3>
-                <p class="text-text-muted text-xs mb-2">{{ project.company }}</p>
-                <p class="text-text-secondary text-sm mb-2 line-clamp-2">{{ project.description }}</p>
-                <p class="text-text-muted text-xs mb-3 line-clamp-1">{{ project.outcome }}</p>
-                <span class="text-highlight text-sm inline-flex items-center gap-1.5 font-medium">
-                  View Project
-                  <span class="i-ph-arrow-right w-3.5 h-3.5" aria-hidden="true" />
-                </span>
+                <p class="text-highlight text-xs font-medium">{{ project.outcome }}</p>
               </NuxtLink>
             </div>
           </div>

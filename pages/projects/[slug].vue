@@ -1,8 +1,8 @@
 <script setup lang="ts">
 /**
- * Project Page
- * Scroll-based storytelling: Problem → Constraints → System → Impact
- * With visual placeholders for screenshots
+ * Project Case Study Page
+ * Senior-level storytelling: Context → Reality → Problems → Evolution → System → Impact
+ * Reading time: 60-90 seconds
  */
 
 const route = useRoute()
@@ -14,66 +14,139 @@ interface Project {
   role: string
   stack: string[]
   scale: string
+  modules?: string[]
   context: string
+  reality?: string[]
   problem: string[]
-  constraints: string[]
-  approach: string[]
+  designEvolution?: { before: string[]; after: string[] }
+  operationalModel?: string
+  stateModel?: { category: string; states: string[] }[]
+  operatorUx?: string[]
+  scalabilityStrategy?: string[]
   owned: string[]
   impact: { metric: string; label: string }[]
-  patterns: string[]
+  patterns: { engineering: string[]; ux?: string[] }
+  images?: { dashboard?: string; before?: string; after?: string; system?: string; components?: string }
+  realWorld?: string
+  collaboration?: string
 }
 
 const projects: Record<string, Project> = {
   'arontel-platform': {
     title: 'Arontel Enterprise Platform',
-    subtitle: 'Large-scale telecom platform with data-heavy dashboards, IVR management, and real-time systems',
+    subtitle: 'Control system for live telecom operations. IVR routing, conference management, real-time dashboards.',
     role: 'Software Engineer',
     stack: ['Vue 3', 'Nuxt', 'TypeScript', 'Pinia', 'Supabase'],
-    scale: '4k-12k+ nodes, multi-tenant, production',
+    scale: '12k+ nodes · multi-tenant · production',
+    modules: ['IVR Platform', 'Conference System', 'File Manager', 'Admin Console'],
 
-    context: 'Enterprise telecom platform serving multiple business units. Handles complex IVR workflows, conference management, admin dashboards, and real-time data synchronization across organizational hierarchies.',
+    context: 'Operators manage live phone systems through this platform. Every click affects real call routing and production IVR trees. This is not a CRUD app — it\'s a control surface for telecom infrastructure.',
+
+    reality: [
+      '12k+ nodes per IVR tree',
+      'Actions affect live callers',
+      'Multi-tenant data isolation',
+      'Non-technical operators',
+      'Real-time concurrent edits',
+      'Zero error tolerance',
+    ],
 
     problem: [
-      'Node tree rendering breaks at scale (4k-12k+ nodes)',
-      'Nested data structures cause O(n²) traversal',
-      'Multi-tenant isolation requires careful state management',
-      'Non-technical operators need intuitive complex workflows',
-      'Real-time updates across concurrent users',
+      'UI freezes at 4k+ nodes',
+      'State mutations cause re-render cascades',
+      'Operators lost in deep hierarchies',
+      'No visibility into what\'s active',
+      'Easy to trigger destructive actions',
+      'Sync conflicts corrupt data',
     ],
-    constraints: [
-      'Must handle 12k+ nodes without UI freeze',
-      'Interaction latency must stay under 300ms',
-      'Zero-downtime deployments for production system',
-      'WCAG accessibility for enterprise compliance',
-      'Must work across tenant boundaries securely',
+
+    designEvolution: {
+      before: [
+        'Deep nested components',
+        'Coupled state + rendering',
+        'Feature-first architecture',
+        'No normalization',
+        'Slow traversals',
+      ],
+      after: [
+        'Flat normalized store',
+        'Computed hierarchies',
+        'Domain boundaries',
+        'Virtual rendering',
+        'Event-driven updates',
+      ],
+    },
+
+    operationalModel: 'Incoming Call → Routing → IVR Tree → Node State → Operator Panel → Live Execution',
+
+    stateModel: [
+      { category: 'Audio', states: ['No audio → upload', 'Has audio → replace/delete', 'TTS → generate', 'Recording → locked'] },
+      { category: 'Nodes', states: ['Active → green', 'Disabled → muted', 'Unconfigured → warning', 'Error → restricted'] },
+      { category: 'Permissions', states: ['ACL → role-gated', 'PIN → confirmation', 'Admin → hidden'] },
+      { category: 'Controls', states: ['Transfer → routing panel', 'Menu → tree expand', 'Intro/Outro → player'] },
     ],
-    approach: [
-      'Virtualized tree rendering — only visible nodes in DOM',
-      'Flat normalized state with computed hierarchies',
-      'Store-driven data flow with single source of truth',
-      'Progressive disclosure for complex workflows',
-      'Optimistic UI with rollback for real-time feel',
+
+    operatorUx: [
+      'Always visible system state — what\'s live, what\'s inactive',
+      'Gated destructive actions — confirm before delete',
+      'Clear button meanings — no ambiguous actions',
+      'State before action — see current config first',
+      'Error containment — mistakes don\'t cascade',
     ],
+
+    scalabilityStrategy: [
+      'Virtual scrolling — only visible nodes in DOM',
+      'Normalized state — flat maps, computed trees',
+      'Batched updates — debounced mutations',
+      'Optimistic UI — instant feedback, background sync',
+      'Lazy loading — deep branches load on demand',
+    ],
+
     owned: [
-      'End-to-end development of large-scale platform dashboards',
-      'Optimized UI rendering for 4k-12k+ node datasets',
-      'Led rapid 0→1 feature delivery with UX and implementation',
-      'Built reusable component library for enterprise UI',
-      'Implemented Cloudflare authentication integration',
-      'Structured real-time sync using Supabase',
+      'Platform architecture end-to-end',
+      'Performance: 600ms → 250ms latency',
+      'State management design',
+      'Virtual tree rendering',
+      'Real-time sync logic',
+      'UX decisions with designers',
+      'Production deployment',
     ],
+
     impact: [
-      { metric: '60%', label: 'Faster renders' },
-      { metric: '12k+', label: 'Nodes handled' },
-      { metric: '<300ms', label: 'Interaction latency' },
+      { metric: '60%', label: 'Faster' },
+      { metric: '<300ms', label: 'Latency' },
+      { metric: '12k+', label: 'Nodes' },
+      { metric: '0', label: 'Downtime' },
     ],
-    patterns: [
-      'Virtualization',
-      'Multi-tenancy',
-      'State normalization',
-      'RBAC UI',
-      'Optimistic updates',
-    ],
+
+    patterns: {
+      engineering: [
+        'Virtualization',
+        'State normalization',
+        'Event sourcing',
+        'Optimistic updates',
+        'Domain separation',
+      ],
+      ux: [
+        'State-driven UI',
+        'Gated actions',
+        'Progressive disclosure',
+        'Role-based visibility',
+        'Error prevention',
+      ],
+    },
+
+    images: {
+      dashboard: '/projects/Dashboard.png',
+      before: '/projects/before-ivr-main.png',
+      after: '/projects/after-ivr-m.png',
+      system: '/projects/system-diagram.png',
+      components: '/projects/component-showcase.png',
+    },
+
+    realWorld: 'Used daily by telecom operators to manage IVR systems, route calls, and configure audio prompts.',
+
+    collaboration: 'Worked with UX designers on complex telecom workflows.',
   },
 
   'ai-interview': {
@@ -81,9 +154,16 @@ const projects: Record<string, Project> = {
     subtitle: 'Real-time interview system with AI-powered assessment and transcription',
     role: 'Full-Stack Engineer',
     stack: ['React', 'Next.js', 'OpenAI', 'Firebase', 'WebSocket'],
-    scale: 'Concurrent sessions, real-time streaming',
+    scale: 'Concurrent sessions · real-time streaming',
 
     context: 'Automated interview platform that conducts AI-powered conversations, transcribes responses in real-time, and provides structured assessment feedback.',
+
+    reality: [
+      'Real-time audio streaming required',
+      'Concurrent interview sessions',
+      'Sub-second response expectations',
+      'Unreliable network conditions',
+    ],
 
     problem: [
       'Manual interviews are inconsistent and biased',
@@ -91,35 +171,35 @@ const projects: Record<string, Project> = {
       'AI responses feel robotic without careful prompting',
       'Network issues disrupt live sessions',
     ],
-    constraints: [
-      'Response latency must be under 500ms',
-      'Must handle audio streaming reliably',
-      'Conversation must feel natural, not scripted',
-      'Must gracefully recover from disconnections',
-    ],
-    approach: [
+
+    scalabilityStrategy: [
       'WebSocket architecture for bi-directional streaming',
       'Chunked audio processing with overlap buffers',
       'Conversation state machine for natural flow',
       'Optimistic UI with background sync',
     ],
+
     owned: [
-      'Built real-time WebSocket infrastructure',
-      'Integrated OpenAI streaming API',
-      'Designed conversation state machine',
-      'Implemented audio pipeline with fallbacks',
+      'Real-time WebSocket infrastructure',
+      'OpenAI streaming API integration',
+      'Conversation state machine design',
+      'Audio pipeline with fallbacks',
     ],
+
     impact: [
       { metric: '<500ms', label: 'Response time' },
       { metric: '95%', label: 'Transcription accuracy' },
       { metric: '3x', label: 'Interview throughput' },
     ],
-    patterns: [
-      'Event-driven',
-      'State machines',
-      'Streaming APIs',
-      'Graceful degradation',
-    ],
+
+    patterns: {
+      engineering: [
+        'Event-driven',
+        'State machines',
+        'Streaming APIs',
+        'Graceful degradation',
+      ],
+    },
   },
 
   'movie-platform': {
@@ -127,9 +207,16 @@ const projects: Record<string, Project> = {
     subtitle: 'Full-stack platform with authentication, cloud storage, and automated pipelines',
     role: 'Full-Stack Engineer',
     stack: ['Next.js', 'Node.js', 'PostgreSQL', 'AWS', 'GitHub Actions'],
-    scale: 'Production deployment, automated CI/CD',
+    scale: 'Production deployment · automated CI/CD',
 
     context: 'End-to-end movie database with user authentication, media storage, search functionality, and fully automated deployment pipeline.',
+
+    reality: [
+      'Multiple deployment environments',
+      'Database migration complexity',
+      'Zero-downtime requirements',
+      'Audit compliance needs',
+    ],
 
     problem: [
       'Manual deployments cause environment drift',
@@ -137,35 +224,35 @@ const projects: Record<string, Project> = {
       'Database migrations are error-prone',
       'No deployment visibility or rollback',
     ],
-    constraints: [
-      'Zero-downtime deployments required',
-      'Must handle database migrations safely',
-      'Multiple environments (dev/staging/prod)',
-      'Audit trail for all changes',
-    ],
-    approach: [
+
+    scalabilityStrategy: [
       'Infrastructure as code with Terraform',
       'Blue-green deployment strategy',
       'Migration scripts with automatic rollback',
       'Comprehensive logging and monitoring',
     ],
+
     owned: [
-      'Designed CI/CD pipeline architecture',
-      'Built JWT auth with refresh token rotation',
-      'Set up AWS infrastructure (EC2, RDS, S3)',
-      'Created automated testing framework',
+      'CI/CD pipeline architecture',
+      'JWT auth with refresh token rotation',
+      'AWS infrastructure (EC2, RDS, S3)',
+      'Automated testing framework',
     ],
+
     impact: [
       { metric: '0', label: 'Downtime deploys' },
       { metric: '10min', label: 'Full deploy' },
       { metric: '100%', label: 'Test coverage' },
     ],
-    patterns: [
-      'IaC',
-      'Blue-green deploy',
-      'Token rotation',
-      'Test pyramid',
-    ],
+
+    patterns: {
+      engineering: [
+        'IaC',
+        'Blue-green deploy',
+        'Token rotation',
+        'Test pyramid',
+      ],
+    },
   },
 
 }
@@ -215,6 +302,12 @@ const otherProjects = computed(() => {
         <div class="container">
           <h1 class="hero-title hero-name">{{ project.title }}</h1>
           <p class="hero-subtitle">{{ project.subtitle }}</p>
+
+          <!-- Modules (sub-projects) -->
+          <div v-if="project.modules" class="modules-row">
+            <span v-for="mod in project.modules" :key="mod" class="module-tag">{{ mod }}</span>
+          </div>
+
           <div class="hero-meta">
             <div class="meta-item">
               <span class="meta-label">Role</span>
@@ -234,19 +327,22 @@ const otherProjects = computed(() => {
         </div>
       </section>
 
-      <!-- Hero Image Placeholder -->
+      <!-- Dashboard Overview Image -->
       <section class="visual-section fade-in">
         <div class="container">
-          <div class="placeholder-hero">
+          <div v-if="project.images?.dashboard" class="hero-image-container">
+            <img :src="project.images.dashboard" alt="Dashboard Overview" class="hero-image" />
+          </div>
+          <div v-else class="placeholder-hero">
             <div class="placeholder-icon">
               <span class="i-ph-desktop w-10 h-10" />
             </div>
             <div class="placeholder-text">
               <span class="placeholder-title">Dashboard Overview</span>
-              <span class="placeholder-sub">Full interface screenshot will be added</span>
+              <span class="placeholder-sub">Coming soon</span>
             </div>
           </div>
-          <p class="visual-caption">Production system interface • Laptop mockup</p>
+          <p class="visual-caption">Production system interface</p>
         </div>
       </section>
 
@@ -255,13 +351,31 @@ const otherProjects = computed(() => {
         <div class="container">
           <h2 class="section-title section-title-accent">Context</h2>
           <p class="context-text">{{ project.context }}</p>
+          <!-- Real World Usage -->
+          <div v-if="project.realWorld" class="real-world-note">
+            <span class="i-ph-globe w-4 h-4" aria-hidden="true" />
+            <span><strong>In Production:</strong> {{ project.realWorld }}</span>
+          </div>
         </div>
       </section>
 
-      <!-- Problem -->
-      <section class="content-section section-alt fade-in">
+      <!-- Reality / Constraints -->
+      <section v-if="project.reality" class="content-section section-alt fade-in">
         <div class="container">
-          <h2 class="section-title section-title-accent">The Problem</h2>
+          <h2 class="section-title section-title-accent">Reality / Constraints</h2>
+          <ul class="content-list">
+            <li v-for="item in project.reality" :key="item">
+              <span class="list-marker accent">→</span>
+              <span>{{ item }}</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Core Problems -->
+      <section class="content-section fade-in" :class="{ 'section-alt': !project.reality }">
+        <div class="container">
+          <h2 class="section-title section-title-accent">Core Problems</h2>
           <ul class="content-list">
             <li v-for="item in project.problem" :key="item">
               <span class="list-marker">—</span>
@@ -271,12 +385,86 @@ const otherProjects = computed(() => {
         </div>
       </section>
 
-      <!-- Constraints -->
-      <section class="content-section fade-in">
+      <!-- Design Evolution (Before → After) - Only for Arontel -->
+      <section v-if="project.designEvolution" class="content-section section-alt fade-in">
         <div class="container">
-          <h2 class="section-title section-title-accent">Constraints</h2>
+          <h2 class="section-title section-title-accent">Design Evolution</h2>
+          <div class="evolution-grid">
+            <div class="evolution-col">
+              <h3 class="evolution-label">Before</h3>
+              <ul class="content-list compact">
+                <li v-for="item in project.designEvolution.before" :key="item">
+                  <span class="list-marker text-red-400">✗</span>
+                  <span>{{ item }}</span>
+                </li>
+              </ul>
+            </div>
+            <div class="evolution-col">
+              <h3 class="evolution-label">After</h3>
+              <ul class="content-list compact">
+                <li v-for="item in project.designEvolution.after" :key="item">
+                  <span class="list-marker accent">✓</span>
+                  <span>{{ item }}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- Before/After Images -->
+          <div v-if="project.images?.before && project.images?.after" class="before-after-images">
+            <div class="ba-image-container">
+              <span class="ba-label">Before</span>
+              <img :src="project.images.before" alt="Before redesign" class="ba-image" />
+            </div>
+            <div class="ba-image-container">
+              <span class="ba-label ba-label-after">After</span>
+              <img :src="project.images.after" alt="After redesign" class="ba-image" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Operational System Model -->
+      <section v-if="project.operationalModel || project.images?.system" class="content-section fade-in">
+        <div class="container">
+          <h2 class="section-title section-title-accent">System Flow</h2>
+          <p class="model-intro">How a call moves through the system.</p>
+          <p v-if="project.operationalModel" class="operational-flow">{{ project.operationalModel }}</p>
+          <!-- System Diagram Image -->
+          <div v-if="project.images?.system" class="system-diagram">
+            <img :src="project.images.system" alt="Operational system model" class="diagram-image" />
+          </div>
+          <p class="visual-caption">Control system architecture</p>
+        </div>
+      </section>
+
+      <!-- State-Driven Interface -->
+      <section v-if="project.stateModel" class="content-section section-alt fade-in">
+        <div class="container">
+          <h2 class="section-title section-title-accent">State-Driven UI</h2>
+          <p class="model-intro">UI controls reflect system state. What you see = what's actually happening.</p>
+          <div class="state-grid">
+            <div v-for="category in project.stateModel" :key="category.category" class="state-category">
+              <h3 class="state-category-label">{{ category.category }}</h3>
+              <ul class="state-list">
+                <li v-for="state in category.states" :key="state">{{ state }}</li>
+              </ul>
+            </div>
+          </div>
+          <!-- Component Showcase Image -->
+          <div v-if="project.images?.components" class="component-showcase">
+            <img :src="project.images.components" alt="UI Component System" class="showcase-image" />
+            <p class="visual-caption"><strong>Component Library</strong> — Built for reusability across modules</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Operator-First UX -->
+      <section v-if="project.operatorUx" class="content-section fade-in">
+        <div class="container">
+          <h2 class="section-title section-title-accent">Operator-First UX</h2>
+          <p class="model-intro">Built for speed and safety, not aesthetics.</p>
           <ul class="content-list">
-            <li v-for="item in project.constraints" :key="item">
+            <li v-for="item in project.operatorUx" :key="item">
               <span class="list-marker accent">→</span>
               <span>{{ item }}</span>
             </li>
@@ -284,33 +472,21 @@ const otherProjects = computed(() => {
         </div>
       </section>
 
-      <!-- System Approach + Diagram -->
-      <section class="content-section section-alt fade-in">
+      <!-- Scalability Strategy -->
+      <section v-if="project.scalabilityStrategy" class="content-section fade-in">
         <div class="container">
-          <h2 class="section-title section-title-accent">System Approach</h2>
-          <div class="approach-grid">
-            <ul class="content-list">
-              <li v-for="item in project.approach" :key="item">
-                <span class="list-marker">•</span>
-                <span>{{ item }}</span>
-              </li>
-            </ul>
-            <!-- Architecture Diagram Placeholder -->
-            <div class="placeholder-diagram">
-              <div class="placeholder-icon">
-                <span class="i-ph-tree-structure w-8 h-8" />
-              </div>
-              <div class="placeholder-text">
-                <span class="placeholder-title">System Architecture</span>
-                <span class="placeholder-sub">Diagram will be added</span>
-              </div>
-            </div>
-          </div>
+          <h2 class="section-title section-title-accent">Scalability Strategy</h2>
+          <ul class="content-list">
+            <li v-for="item in project.scalabilityStrategy" :key="item">
+              <span class="list-marker accent">→</span>
+              <span>{{ item }}</span>
+            </li>
+          </ul>
         </div>
       </section>
 
       <!-- What I Owned -->
-      <section class="content-section owned-section fade-in">
+      <section class="content-section owned-section fade-in" :class="{ 'section-alt': !project.scalabilityStrategy }">
         <div class="container">
           <h2 class="section-title section-title-accent">What I Owned</h2>
           <ul class="content-list">
@@ -319,28 +495,11 @@ const otherProjects = computed(() => {
               <span>{{ item }}</span>
             </li>
           </ul>
-        </div>
-      </section>
-
-      <!-- Screenshots Grid Placeholder -->
-      <section class="visual-section fade-in">
-        <div class="container">
-          <h2 class="section-title section-title-accent">Interface Highlights</h2>
-          <div class="placeholder-grid">
-            <div class="placeholder-thumb">
-              <span class="i-ph-chart-line w-6 h-6" />
-              <span>Analytics View</span>
-            </div>
-            <div class="placeholder-thumb">
-              <span class="i-ph-list-checks w-6 h-6" />
-              <span>Management Panel</span>
-            </div>
-            <div class="placeholder-thumb">
-              <span class="i-ph-gear w-6 h-6" />
-              <span>Configuration</span>
-            </div>
+          <!-- Collaboration Note -->
+          <div v-if="project.collaboration" class="collab-note">
+            <span class="i-ph-users-three w-4 h-4" aria-hidden="true" />
+            <span>{{ project.collaboration }}</span>
           </div>
-          <p class="visual-caption">UI screenshots will be added • Click to expand</p>
         </div>
       </section>
 
@@ -357,14 +516,27 @@ const otherProjects = computed(() => {
         </div>
       </section>
 
-      <!-- Patterns -->
-      <section class="content-section">
+      <!-- Patterns Applied -->
+      <section class="content-section fade-in">
         <div class="container">
           <h2 class="section-title section-title-accent">Patterns Applied</h2>
-          <div class="patterns-list">
-            <span v-for="pattern in project.patterns" :key="pattern" class="badge badge-tech">
-              {{ pattern }}
-            </span>
+          <div class="patterns-grid">
+            <div class="pattern-group">
+              <h3 class="pattern-group-label">Engineering</h3>
+              <div class="patterns-list">
+                <span v-for="pattern in project.patterns.engineering" :key="pattern" class="badge badge-tech">
+                  {{ pattern }}
+                </span>
+              </div>
+            </div>
+            <div v-if="project.patterns.ux" class="pattern-group">
+              <h3 class="pattern-group-label">UX</h3>
+              <div class="patterns-list">
+                <span v-for="pattern in project.patterns.ux" :key="pattern" class="badge badge-ux">
+                  {{ pattern }}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -383,6 +555,17 @@ const otherProjects = computed(() => {
               {{ p.title }} →
             </NuxtLink>
           </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="cta-section">
+        <div class="container text-center">
+          <p class="cta-text">Interested in working together?</p>
+          <a href="mailto:gagandoddanna@gmail.com" class="btn-primary">
+            Get in Touch
+            <span class="i-ph-arrow-right w-4 h-4" aria-hidden="true" />
+          </a>
         </div>
       </section>
     </main>
@@ -515,6 +698,23 @@ const otherProjects = computed(() => {
   flex-wrap: wrap;
   gap: 6px;
   margin-top: 4px;
+}
+
+/* Modules (sub-projects) */
+.modules-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.module-tag {
+  font-size: 12px;
+  padding: 4px 10px;
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  color: var(--color-text-secondary);
 }
 
 /* Tech badges with cyan styling */
@@ -722,16 +922,282 @@ const otherProjects = computed(() => {
   border-bottom: none;
 }
 
-/* Approach Grid */
-.approach-grid {
+/* Evolution Grid (Before/After) */
+.evolution-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px;
-  align-items: start;
+  margin-bottom: 32px;
+}
+
+.evolution-col {
+  padding: 20px;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.evolution-label {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  margin-bottom: 16px;
+}
+
+.content-list.compact {
+  gap: 8px;
+}
+
+.content-list.compact li {
+  font-size: 14px;
+}
+
+/* Before/After Images */
+.before-after-images {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.ba-image-container {
+  position: relative;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ba-label {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 8px;
+  background: rgba(239, 68, 68, 0.9);
+  color: white;
+  border-radius: 4px;
+  z-index: 1;
+}
+
+.ba-label-after {
+  background: rgba(34, 197, 94, 0.9);
+}
+
+.ba-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Operational Model */
+.model-intro {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.operational-flow {
+  font-size: 0.9rem;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+  color: var(--color-highlight);
+  background: var(--color-bg-elevated);
+  padding: 20px 24px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  margin-bottom: 24px;
+  text-align: center;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+}
+
+/* State-Driven Interface */
+.state-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.state-category {
+  padding: 16px;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.state-category-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-highlight);
+  margin-bottom: 12px;
+}
+
+.state-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.state-list li {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+}
+
+@media (max-width: 640px) {
+  .state-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.system-diagram {
+  margin-top: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.diagram-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Hero Dashboard Image */
+.hero-image-container {
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.hero-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Component Showcase */
+.component-showcase {
+  margin-top: 32px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--color-bg-elevated);
+}
+
+.showcase-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.component-showcase .visual-caption {
+  padding: 12px 16px;
+  margin: 0;
+  background: var(--color-bg-subtle);
+  border-top: 1px solid var(--color-border);
+}
+
+/* Collaboration Note */
+.collab-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 24px;
+  padding: 16px;
+  background: rgba(60, 223, 255, 0.05);
+  border: 1px solid rgba(60, 223, 255, 0.15);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.collab-note span:first-child {
+  color: var(--color-highlight);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Real World Note */
+.real-world-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 20px;
+  padding: 14px 16px;
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-highlight);
+  border-radius: 4px;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.real-world-note span:first-child {
+  color: var(--color-highlight);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Strategy subtitle */
+.strategy-subtitle {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+/* Patterns Grid */
+.patterns-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.pattern-group-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  margin-bottom: 12px;
+}
+
+.badge-ux {
+  background: rgba(168, 85, 247, 0.1);
+  color: #A855F7;
+  border: 1px solid rgba(168, 85, 247, 0.15);
+}
+
+.dark .badge-ux {
+  color: #C084FC;
+}
+
+/* CTA Section */
+.cta-section {
+  padding: 64px 0;
+  border-top: 1px solid var(--color-border);
+  background: linear-gradient(135deg, var(--color-bg) 0%, rgba(60, 223, 255, 0.02) 100%);
+}
+
+.cta-text {
+  font-size: 1.125rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 20px;
 }
 
 @media (max-width: 768px) {
-  .approach-grid {
+  .evolution-grid,
+  .before-after-images,
+  .patterns-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -739,9 +1205,9 @@ const otherProjects = computed(() => {
 /* Impact Cards */
 .impact-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  max-width: 500px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  max-width: 600px;
 }
 
 .impact-card {
@@ -832,6 +1298,34 @@ const otherProjects = computed(() => {
   color: var(--color-text);
 }
 
+/* Image Containers - Responsive */
+.hero-image-container,
+.system-diagram,
+.component-showcase,
+.ba-image-container {
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.hero-image-container:hover,
+.system-diagram:hover,
+.component-showcase:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Large screens - max width for readability */
+@media (min-width: 1200px) {
+  .hero-image-container,
+  .system-diagram {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .component-showcase {
+    max-width: 900px;
+  }
+}
+
 /* Responsive */
 @media (max-width: 640px) {
   .hero {
@@ -861,7 +1355,7 @@ const otherProjects = computed(() => {
   }
 
   .impact-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 8px;
   }
 
@@ -871,6 +1365,20 @@ const otherProjects = computed(() => {
 
   .impact-metric {
     font-size: 1.25rem;
+  }
+
+  .real-world-note,
+  .collab-note {
+    font-size: 13px;
+    padding: 12px;
+  }
+
+  .state-grid {
+    gap: 12px;
+  }
+
+  .state-category {
+    padding: 12px;
   }
 }
 </style>

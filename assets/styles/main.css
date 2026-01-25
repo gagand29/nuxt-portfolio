@@ -328,11 +328,38 @@ ul, ol {
 }
 
 .card-featured {
-  padding: var(--space-8);
+  padding: var(--space-6);
 }
 
 .card-compact {
   padding: var(--space-4);
+}
+
+/* Featured project image */
+.featured-image-container {
+  width: 100%;
+  max-width: 280px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.featured-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 300ms ease;
+}
+
+.card-featured:hover .featured-image {
+  transform: scale(1.02);
+}
+
+@media (max-width: 768px) {
+  .featured-image-container {
+    max-width: 100%;
+  }
 }
 
 /* ============================================
@@ -675,6 +702,16 @@ ul, ol {
 .delay-2 { animation-delay: 100ms; }
 .delay-3 { animation-delay: 150ms; }
 .delay-4 { animation-delay: 200ms; }
+
+/* Bounce animation for scroll indicator */
+.animate-bounce {
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
 
 /* ============================================
    Reduced Motion
