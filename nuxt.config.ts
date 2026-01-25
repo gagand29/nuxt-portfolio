@@ -9,6 +9,10 @@ export default defineNuxtConfig({
 
   css: ['@/assets/styles/main.css'],
 
+  nitro: {
+    preset: 'vercel'
+  },
+
   app: {
     head: {
       title: 'Gagan Doddanna — Product Engineer',
