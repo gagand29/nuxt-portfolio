@@ -108,5 +108,13 @@ export default defineConfig({
     'i-ph-palette',
     'i-ph-cpu',
     'i-ph-tree-structure',
+    'i-ph-desktop',
+    'i-ph-image',
+    'i-ph-list-checks',
+    'i-ph-gear',
+    'i-ph-graduation-cap',
+    'i-ph-certificate',
+    'i-ph-map-pin',
+    'i-ph-buildings',
   ],
 })

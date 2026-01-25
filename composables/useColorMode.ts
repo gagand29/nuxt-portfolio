@@ -3,36 +3,45 @@
  * Manages light/dark mode theme switching with localStorage persistence
  *
  * Features:
- * - Light mode is default
- * - Preference saved to localStorage
+ * - Automatic theme based on time of day (6 AM - 6 PM = light, else dark)
+ * - User preference saved to localStorage (overrides auto)
  * - Smooth transition between modes
  * - SSR-safe with client-side hydration
+ * - Prevents flash by having dark class in HTML by default
  */
 
 type ColorMode = 'light' | 'dark'
 
 // Reactive state for color mode
-const colorMode = ref<ColorMode>('light')
+const colorMode = ref<ColorMode>('dark')
 const isInitialized = ref(false)
 
 /**
- * Initialize color mode from localStorage or system preference
+ * Get theme based on time of day
+ * 6 AM - 6 PM = light mode (daytime)
+ * 6 PM - 6 AM = dark mode (evening/night)
+ */
+const getTimeBasedTheme = (): ColorMode => {
+  const hour = new Date().getHours()
+  // Daytime: 6 AM (6) to 6 PM (18)
+  return (hour >= 6 && hour < 18) ? 'light' : 'dark'
+}
+
+/**
+ * Initialize color mode from localStorage or time-based default
  * Only runs on client-side
  */
 const initColorMode = () => {
   if (import.meta.server || isInitialized.value) return
 
-  // Check localStorage first
+  // Check localStorage first (user preference overrides auto)
   const stored = localStorage.getItem('color-mode') as ColorMode | null
 
   if (stored && (stored === 'light' || stored === 'dark')) {
     colorMode.value = stored
   } else {
-    // Default to light mode (as requested)
-    // Optionally check system preference:
-    // const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    // colorMode.value = prefersDark ? 'dark' : 'light'
-    colorMode.value = 'light'
+    // Auto theme based on time of day
+    colorMode.value = getTimeBasedTheme()
   }
 
   // Apply the class to document

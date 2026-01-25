@@ -2,6 +2,7 @@
 /**
  * App Root
  * Minimal setup with color mode
+ * Theme flash prevention handled in nuxt.config.ts
  */
 
 const { colorMode, toggleColorMode } = useColorMode()

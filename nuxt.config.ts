@@ -14,6 +14,7 @@ export default defineNuxtConfig({
       title: 'Gagan Doddanna — Product Engineer',
       htmlAttrs: {
         lang: 'en',
+        class: 'dark', // Default to dark mode to prevent flash
       },
       meta: [
         { charset: 'utf-8' },
@@ -22,7 +23,8 @@ export default defineNuxtConfig({
           name: 'description',
           content: 'Frontend-heavy full-stack engineer building scalable product systems. Vue, React, TypeScript, Cloud Infrastructure.'
         },
-        { name: 'theme-color', content: '#0B1220' },
+        { name: 'theme-color', content: '#0A0F1A' }, // Updated to new dark bg
+        { name: 'color-scheme', content: 'dark light' },
         { property: 'og:type', content: 'website' },
         { property: 'og:title', content: 'Gagan Doddanna — Product Engineer' },
         { property: 'og:description', content: 'I build scalable product systems, not just interfaces.' },
@@ -35,6 +37,24 @@ export default defineNuxtConfig({
         {
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
+        },
+      ],
+      // Inline script to set theme before paint (prevents flash)
+      script: [
+        {
+          children: `
+            (function() {
+              var stored = localStorage.getItem('color-mode');
+              var theme = stored;
+              if (!theme) {
+                var hour = new Date().getHours();
+                theme = (hour >= 6 && hour < 18) ? 'light' : 'dark';
+              }
+              if (theme === 'light') {
+                document.documentElement.classList.remove('dark');
+              }
+            })();
+          `,
         },
       ],
     },

@@ -1,15 +1,21 @@
 <script setup lang="ts">
 /**
  * Landing Page
- * Product Engineer Portfolio - Clean, System-first Design
+ * Frontend Engineer Portfolio - Enterprise, Clean, Recruiter-Ready
+ *
+ * Principles:
+ * - Show real production work
+ * - Enterprise-grade presentation
+ * - Recruiter-friendly signals (years, education, certs)
+ * - Accessibility-first (a11y)
  */
 
 // SEO
 useSeoMeta({
-  title: 'Gagan Doddanna — Product Engineer',
-  description: 'Frontend-heavy full-stack engineer building scalable product systems. Vue, React, TypeScript, Cloud Infrastructure.',
-  ogTitle: 'Gagan Doddanna — Product Engineer',
-  ogDescription: 'I build scalable product systems, not just interfaces.',
+  title: 'Gagan Doddanna — Frontend Engineer',
+  description: 'Frontend Engineer with 2+ years building large-scale, data-heavy platform UIs. Vue, React, TypeScript, AWS. MS CS DePaul University.',
+  ogTitle: 'Gagan Doddanna — Frontend Engineer',
+  ogDescription: 'Building scalable enterprise platforms and production-grade UI architectures.',
   twitterCard: 'summary_large_image',
 })
 
@@ -20,51 +26,95 @@ useHead({
 // Color mode
 const toggleColorMode = inject('toggleColorMode') as () => void
 
-// Data
+// === DATA ===
+
+// Companies worked with (for logo strip)
+const companies = [
+  { name: 'Arontel', logo: '/logos/arontel.svg' },
+  { name: 'YES HardSoft', logo: '/logos/yeshardsoft.svg' },
+  { name: '2ndSight.ai', logo: '/logos/2ndsight.svg' },
+]
+
+// Projects - Featured + Others
 const projects = [
   {
-    slug: 'volivr',
-    title: 'VolIVR Platform',
-    description: 'Production dashboard handling 12k+ node datasets with optimized rendering.',
-    outcome: 'Reduced render times from 600ms to 250ms through virtual scrolling.',
-    tech: ['Vue 3', 'Nuxt', 'TypeScript', 'Pinia'],
+    slug: 'arontel-platform',
+    title: 'Arontel Enterprise Platform',
+    description: 'Large-scale platform dashboards for telecom and IVR systems. Data-heavy UIs handling 4k-12k+ node datasets.',
+    outcome: 'Reduced interaction latency from 600ms to 250ms through virtual scrolling and optimized reactivity.',
+    tech: ['Vue 3', 'Nuxt', 'TypeScript', 'Pinia', 'Supabase'],
     featured: true,
+    modules: ['IVR Platform', 'Conference System', 'Admin Dashboards', 'Real-time Sync'],
   },
   {
     slug: 'ai-interview',
     title: 'AI Interview Platform',
-    description: 'Real-time interview system with AI-powered questions and live transcription.',
-    outcome: 'Scalable WebSocket architecture serving concurrent sessions.',
+    description: 'Real-time AI-powered interview system with live transcription and session handling.',
+    outcome: 'WebSocket architecture with OpenAI integration serving concurrent sessions.',
     tech: ['React', 'Next.js', 'OpenAI', 'Firebase'],
+    company: '2ndSight.ai',
   },
   {
     slug: 'movie-platform',
     title: 'Movie Database Platform',
-    description: 'End-to-end platform with authentication, cloud storage, and RESTful APIs.',
-    outcome: 'Complete CI/CD pipeline with automated deployments.',
+    description: 'Full-stack platform with authentication, cloud storage, and automated deployments.',
+    outcome: 'Deployed on AWS with EC2, S3, RDS, and GitHub Actions CI/CD.',
     tech: ['Next.js', 'Node.js', 'PostgreSQL', 'AWS'],
+    company: 'Personal Project',
   },
 ]
 
-const interests = [
-  { label: 'System Design', icon: 'i-ph-tree-structure' },
-  { label: 'Data Modeling', icon: 'i-ph-database' },
-  { label: 'Cloud Architecture', icon: 'i-ph-cloud' },
-  { label: 'UX Engineering', icon: 'i-ph-palette' },
-  { label: 'AI Agents', icon: 'i-ph-cpu' },
-  { label: 'Data Visualization', icon: 'i-ph-chart-line' },
-]
-
+// Experience - Timeline only (details in Projects)
 const experience = [
-  { role: 'Software Engineer', company: 'Arontel (Remofirst)', period: '2025 — Present', current: true },
-  { role: 'Software Engineer', company: 'YES HardSoft Solutions', period: '2024 — 2025' },
-  { role: 'Full-Stack Engineer', company: '2ndSight.ai', period: '2024' },
+  {
+    role: 'Software Engineer',
+    company: 'Remofirst (Arontel)',
+    location: 'Chicago, IL',
+    period: 'Jul 2025 — Present',
+    current: true,
+  },
+  {
+    role: 'Software Engineer',
+    company: 'YES HardSoft Solutions',
+    location: 'Remote',
+    period: 'Dec 2024 — May 2025',
+  },
+  {
+    role: 'Full-Stack Engineer',
+    company: '2ndSight.ai',
+    location: 'Remote',
+    period: 'Aug 2024 — Nov 2024',
+  },
 ]
 
+// Education
+const education = [
+  {
+    degree: 'Master of Science in Computer Science',
+    school: 'DePaul University',
+    location: 'Chicago, IL',
+    year: '2023',
+  },
+  {
+    degree: 'Bachelor of Engineering in Computer Science',
+    school: 'Visvesvaraya Technological University',
+    location: 'India',
+    year: '2020',
+  },
+]
+
+// Certifications
+const certifications = [
+  { name: 'AWS Solutions Architect – Associate', year: '2025', icon: 'i-ph-certificate' },
+  { name: 'AWS Cloud Practitioner', year: '2024', icon: 'i-ph-cloud' },
+  { name: 'Generative AI with LLMs', year: '2024', icon: 'i-ph-cpu' },
+]
+
+// Skills - Grouped by domain
 const skills = {
-  'Product Systems': ['Vue.js', 'React', 'TypeScript', 'Nuxt', 'Next.js'],
-  'Cloud & Infra': ['AWS', 'Firebase', 'Supabase', 'Docker', 'CI/CD'],
-  'Data': ['PostgreSQL', 'Redis', 'REST APIs', 'GraphQL'],
+  'Frontend Systems': ['Vue 3', 'Nuxt', 'React', 'Next.js', 'TypeScript'],
+  'Platform & Cloud': ['AWS', 'Firebase', 'Supabase', 'Docker', 'CI/CD'],
+  'Data & APIs': ['PostgreSQL', 'DynamoDB', 'REST APIs', 'Node.js'],
 }
 </script>
 
@@ -83,6 +133,7 @@ const skills = {
           <a href="#work" class="nav-link">Work</a>
           <a href="#experience" class="nav-link">Experience</a>
           <a href="#contact" class="nav-link">Contact</a>
+          <a href="/resume.pdf" target="_blank" rel="noopener" class="nav-link">Resume</a>
         </nav>
         <button
           class="btn-icon"
@@ -97,145 +148,217 @@ const skills = {
 
     <main id="main" class="pt-16">
       <!-- Hero -->
-      <section class="section">
+      <section class="py-16 md:py-20">
         <div class="container">
-          <div class="max-w-2xl space-y-6">
-            <!-- Status -->
-            <div class="flex items-center gap-2 text-small fade-in">
-              <span class="status-dot" />
-              <span>Building at Arontel</span>
+          <div class="max-w-2xl space-y-4">
+            <!-- Current Status - Employed + Open to Opportunities -->
+            <div class="flex flex-wrap items-center gap-3 text-sm fade-in">
+              <span class="inline-flex items-center gap-1.5 text-text-secondary">
+                <span class="status-dot" aria-hidden="true" />
+                <span>Building at <strong class="text-text font-medium">Arontel</strong></span>
+              </span>
+              <span class="text-text-muted">•</span>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-green-500/10 border border-green-500/20 rounded-full text-green-600 dark:text-green-400">
+                <span class="i-ph-sparkle w-3.5 h-3.5" aria-hidden="true" />
+                <span class="font-medium">Open to Opportunities</span>
+              </span>
             </div>
 
-            <!-- Name -->
-            <h1 class="text-display fade-in delay-1">
+            <!-- Name - Primary visual focus -->
+            <h1 class="text-display fade-in delay-1 hero-name">
               Gagan Doddanna
             </h1>
 
-            <!-- Role -->
+            <!-- Role + Years -->
             <p class="text-h3 text-text-secondary fade-in delay-2">
-              Frontend-Heavy Full-Stack Engineer
+              Frontend Engineer <span class="text-text-muted">•</span> 2+ Years
             </p>
 
-            <!-- Tagline -->
-            <p class="text-body-lg max-w-lg text-balance fade-in delay-3">
-              I build scalable product systems, not just interfaces.
+            <!-- Credentials Inline -->
+            <div class="flex flex-wrap items-center gap-2 text-sm text-text-secondary fade-in delay-3">
+              <span class="inline-flex items-center gap-1.5">
+                <span class="i-ph-graduation-cap w-4 h-4 text-highlight" aria-hidden="true" />
+                MS CS, DePaul
+              </span>
+              <span class="text-text-muted">•</span>
+              <span class="inline-flex items-center gap-1.5">
+                <span class="i-ph-certificate w-4 h-4 text-highlight" aria-hidden="true" />
+                AWS Certified
+              </span>
+            </div>
+
+            <!-- Tagline - Short & Impactful -->
+            <p class="text-body-lg max-w-md fade-in delay-3 pt-2">
+              I build data-heavy UIs and enterprise platforms that scale.
             </p>
 
             <!-- CTAs -->
             <div class="flex flex-wrap gap-3 pt-4 fade-in delay-4">
               <a href="#work" class="btn-primary">
                 View Work
-                <span class="i-ph-arrow-right w-4 h-4" />
+                <span class="i-ph-arrow-right w-4 h-4" aria-hidden="true" />
               </a>
-              <a href="/resume.pdf" class="btn-secondary">
+              <a href="/resume.pdf" class="btn-secondary" target="_blank" rel="noopener">
                 Resume
+                <span class="i-ph-file-text w-4 h-4" aria-hidden="true" />
               </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Companies Strip -->
+      <section class="py-6 border-y border-border bg-bg-subtle" aria-label="Companies worked with">
+        <div class="container">
+          <div class="flex flex-row flex-wrap items-center justify-center gap-x-8 gap-y-2">
+            <span class="text-xs text-text-muted uppercase tracking-wide">Worked at</span>
+            <span class="text-text-muted hidden sm:inline">•</span>
+            <div class="flex flex-row items-center gap-6 sm:gap-8">
+              <span
+                v-for="(company, index) in companies"
+                :key="company.name"
+                class="text-sm font-medium text-text-secondary hover:text-text transition-colors"
+              >
+                {{ company.name }}<span v-if="index < companies.length - 1" class="text-text-muted ml-6 sm:ml-8 hidden sm:inline">•</span>
+              </span>
             </div>
           </div>
         </div>
       </section>
 
       <!-- Selected Work -->
-      <section id="work" class="section border-t border-border">
+      <section id="work" class="py-16 md:py-20">
         <div class="container">
-          <h2 class="text-h2 mb-8">Selected Work</h2>
+          <h2 class="text-h2 mb-6 section-title">Selected Work</h2>
 
           <div class="space-y-4">
-            <!-- Featured Project -->
-            <NuxtLink :to="`/projects/${projects[0].slug}`" class="card card-featured block">
-              <div class="flex flex-wrap gap-2 mb-4">
+            <!-- Featured Project (Arontel) -->
+            <NuxtLink :to="`/projects/${projects[0].slug}`" class="card card-featured card-interactive block">
+              <div class="flex flex-wrap items-center gap-2 mb-3">
+                <span class="badge-highlight text-xs">Featured</span>
+                <span class="text-xs text-text-muted">at Remofirst (Arontel)</span>
+              </div>
+              <h3 class="text-h3 mb-2">{{ projects[0].title }}</h3>
+              <div class="flex flex-wrap gap-1.5 mb-3">
                 <span
                   v-for="tech in projects[0].tech"
                   :key="tech"
-                  class="badge"
+                  class="badge badge-tech text-xs"
                 >
                   {{ tech }}
                 </span>
               </div>
-              <h3 class="text-h3 mb-2">{{ projects[0].title }}</h3>
-              <p class="text-body mb-3">{{ projects[0].description }}</p>
-              <p class="text-small mb-4">{{ projects[0].outcome }}</p>
-              <span class="btn-ghost p-0 text-sm inline-flex items-center gap-2">
+              <p class="text-body mb-2">{{ projects[0].description }}</p>
+              <!-- Module tags -->
+              <p class="text-xs text-text-muted mb-3">
+                {{ projects[0].modules.join(' • ') }}
+              </p>
+              <p class="text-small text-highlight mb-4">{{ projects[0].outcome }}</p>
+              <span class="text-highlight text-sm inline-flex items-center gap-2 font-medium">
                 View Project
-                <span class="i-ph-arrow-right w-4 h-4" />
+                <span class="i-ph-arrow-right w-4 h-4" aria-hidden="true" />
               </span>
             </NuxtLink>
 
-            <!-- Other Projects Grid -->
-            <div class="grid-2">
+            <!-- Other Projects Grid (2 projects) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <NuxtLink
                 v-for="project in projects.slice(1)"
                 :key="project.title"
                 :to="`/projects/${project.slug}`"
                 class="card card-interactive block"
               >
-                <div class="flex flex-wrap gap-2 mb-3">
+                <div class="flex flex-wrap items-center gap-1.5 mb-3">
                   <span
                     v-for="tech in project.tech.slice(0, 3)"
                     :key="tech"
-                    class="badge"
+                    class="badge badge-tech text-xs"
                   >
                     {{ tech }}
                   </span>
                 </div>
-                <h3 class="text-h3 mb-2">{{ project.title }}</h3>
-                <p class="text-body text-sm mb-2">{{ project.description }}</p>
-                <p class="text-small">{{ project.outcome }}</p>
+                <h3 class="font-semibold mb-1">{{ project.title }}</h3>
+                <p class="text-text-muted text-xs mb-2">{{ project.company }}</p>
+                <p class="text-text-secondary text-sm mb-2 line-clamp-2">{{ project.description }}</p>
+                <p class="text-text-muted text-xs mb-3 line-clamp-1">{{ project.outcome }}</p>
+                <span class="text-highlight text-sm inline-flex items-center gap-1.5 font-medium">
+                  View Project
+                  <span class="i-ph-arrow-right w-3.5 h-3.5" aria-hidden="true" />
+                </span>
               </NuxtLink>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Interests / Labs -->
-      <section class="section-sm bg-bg-subtle border-y border-border">
+      <!-- Experience -->
+      <section id="experience" class="py-16 md:py-20 border-t border-border">
         <div class="container">
-          <h2 class="text-meta mb-6">Interests & Exploration</h2>
-          <div class="flex flex-wrap gap-3">
-            <div
-              v-for="item in interests"
-              :key="item.label"
-              class="flex items-center gap-2 px-4 py-2 bg-bg-elevated border border-border rounded-md text-sm"
+          <h2 class="text-h2 mb-6 section-title">Experience</h2>
+          <div class="space-y-4">
+            <article
+              v-for="exp in experience"
+              :key="exp.company"
+              class="experience-item"
             >
-              <span :class="[item.icon, 'w-4 h-4 text-text-muted']" />
-              <span>{{ item.label }}</span>
-            </div>
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1">
+                <div>
+                  <h3 class="font-semibold flex items-center gap-2 text-base">
+                    {{ exp.role }}
+                    <span v-if="exp.current" class="badge-highlight text-xs">Current</span>
+                  </h3>
+                  <p class="text-text-secondary text-sm">{{ exp.company }} <span class="text-text-muted">• {{ exp.location }}</span></p>
+                </div>
+                <span class="text-small whitespace-nowrap">{{ exp.period }}</span>
+              </div>
+            </article>
           </div>
         </div>
       </section>
 
-      <!-- Experience -->
-      <section id="experience" class="section">
+      <!-- Credentials: Education + Certifications -->
+      <section class="py-12 bg-bg-subtle border-y border-border">
         <div class="container">
-          <h2 class="text-h2 mb-8">Experience</h2>
-          <div class="space-y-6">
-            <div
-              v-for="exp in experience"
-              :key="exp.company"
-              class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 pb-6 border-b border-border last:border-0"
-            >
-              <div>
-                <h3 class="font-semibold flex items-center gap-2">
-                  {{ exp.role }}
-                  <span v-if="exp.current" class="badge-highlight text-xs">Current</span>
-                </h3>
-                <p class="text-text-secondary">{{ exp.company }}</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+            <!-- Education -->
+            <div>
+              <h2 class="text-meta mb-4">Education</h2>
+              <div class="space-y-3">
+                <div v-for="edu in education" :key="edu.school" class="flex items-start gap-3">
+                  <span class="i-ph-graduation-cap w-4 h-4 text-highlight mt-0.5 flex-shrink-0" aria-hidden="true" />
+                  <div>
+                    <p class="font-medium text-sm">{{ edu.degree }}</p>
+                    <p class="text-text-muted text-sm">{{ edu.school }} • {{ edu.year }}</p>
+                  </div>
+                </div>
               </div>
-              <span class="text-small">{{ exp.period }}</span>
+            </div>
+
+            <!-- Certifications -->
+            <div>
+              <h2 class="text-meta mb-4">Certifications</h2>
+              <div class="space-y-3">
+                <div v-for="cert in certifications" :key="cert.name" class="flex items-center gap-3">
+                  <span :class="[cert.icon, 'w-4 h-4 text-highlight flex-shrink-0']" aria-hidden="true" />
+                  <div>
+                    <p class="font-medium text-sm">{{ cert.name }}</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       <!-- Skills -->
-      <section class="section-sm border-t border-border">
+      <section class="py-12">
         <div class="container">
-          <h2 class="text-meta mb-6">Skills</h2>
-          <div class="grid-3">
+          <h2 class="text-meta mb-5">Technical Stack</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <div v-for="(items, category) in skills" :key="category">
-              <h3 class="text-sm font-medium mb-3">{{ category }}</h3>
+              <h3 class="text-sm font-medium mb-2 text-text-secondary">{{ category }}</h3>
               <div class="flex flex-wrap gap-2">
-                <span v-for="skill in items" :key="skill" class="badge">
+                <span v-for="skill in items" :key="skill" class="badge badge-tech">
                   {{ skill }}
                 </span>
               </div>
@@ -245,13 +368,13 @@ const skills = {
       </section>
 
       <!-- Contact -->
-      <section id="contact" class="section border-t border-border">
-        <div class="container text-center">
-          <h2 class="text-h2 mb-4">Let's build real systems, not just screens.</h2>
-          <p class="text-body mb-8">Open for collaboration and opportunities.</p>
-          <div class="flex justify-center gap-4">
-            <a href="mailto:gagan@example.com" class="btn-primary">
-              <span class="i-ph-envelope w-4 h-4" />
+      <section id="contact" class="py-16 border-t border-border">
+        <div class="container text-center max-w-xl mx-auto">
+          <h2 class="text-h2 mb-3">Let's build something together.</h2>
+          <p class="text-body mb-6">Open to new opportunities — full-time, freelance, or collaboration.</p>
+          <div class="flex flex-wrap justify-center items-center gap-3">
+            <a href="mailto:gagandoddanna@gmail.com" class="btn-primary">
+              <span class="i-ph-envelope w-4 h-4" aria-hidden="true" />
               Get in Touch
             </a>
             <a
@@ -259,28 +382,33 @@ const skills = {
               target="_blank"
               rel="noopener"
               class="btn-icon"
-              aria-label="GitHub"
+              aria-label="View GitHub Profile"
             >
-              <span class="i-ph-github-logo w-5 h-5" />
+              <span class="i-ph-github-logo w-5 h-5" aria-hidden="true" />
             </a>
             <a
-              href="https://linkedin.com/in/gagandoddanna"
+              href="https://linkedin.com/in/gagand8353"
               target="_blank"
               rel="noopener"
               class="btn-icon"
-              aria-label="LinkedIn"
+              aria-label="View LinkedIn Profile"
             >
-              <span class="i-ph-linkedin-logo w-5 h-5" />
+              <span class="i-ph-linkedin-logo w-5 h-5" aria-hidden="true" />
             </a>
           </div>
+          <p class="text-small mt-5 text-text-muted">
+            <span class="i-ph-map-pin w-3.5 h-3.5 inline-block mr-1 align-middle" aria-hidden="true" />
+            Chicago, IL • Open to Remote
+          </p>
         </div>
       </section>
     </main>
 
     <!-- Footer -->
-    <footer class="py-8 border-t border-border">
-      <div class="container text-center text-small">
-        <p>Designed & built with system-first thinking.</p>
+    <footer class="py-6 border-t border-border">
+      <div class="container flex flex-col sm:flex-row items-center justify-between gap-2 text-small text-text-muted">
+        <p>© {{ new Date().getFullYear() }} Gagan Doddanna</p>
+        <p>Built with Nuxt 3</p>
       </div>
     </footer>
   </div>
