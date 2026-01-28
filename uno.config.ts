@@ -97,6 +97,7 @@ export default defineConfig({
     'i-ph-arrow-right',
     'i-ph-arrow-up-right',
     'i-ph-arrow-down',
+    'i-ph-arrow-up',
     'i-ph-github-logo',
     'i-ph-linkedin-logo',
     'i-ph-envelope',

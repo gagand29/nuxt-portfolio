@@ -59,6 +59,41 @@ watch(isMobileMenuOpen, (isOpen) => {
   document.body.style.overflow = isOpen ? 'hidden' : ''
 })
 
+// Scroll to top button visibility
+const showScrollTop = ref(false)
+
+// Active section tracking for indicators
+const activeSection = ref('hero')
+const sections = ['hero', 'work', 'experience', 'contact']
+
+onMounted(() => {
+  const handleScroll = () => {
+    // Show scroll-to-top after scrolling 400px
+    showScrollTop.value = window.scrollY > 400
+
+    // Track active section for indicators
+    const scrollPosition = window.scrollY + 200
+
+    for (const section of sections) {
+      const element = document.getElementById(section === 'hero' ? 'main' : section)
+      if (element) {
+        const { offsetTop, offsetHeight } = element
+        if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+          activeSection.value = section
+          break
+        }
+      }
+    }
+  }
+
+  window.addEventListener('scroll', handleScroll, { passive: true })
+  onUnmounted(() => window.removeEventListener('scroll', handleScroll))
+})
+
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
 // === DATA ===
 
 // Companies worked with (for logo strip)
@@ -255,87 +290,86 @@ const skills = {
     </header>
 
     <main id="main" class="pt-16">
-      <!-- Hero -->
-      <section class="min-h-[85vh] flex items-center py-16 md:py-20">
-        <div class="container">
-          <div class="max-w-2xl space-y-5">
-            <!-- Current Status -->
-            <div class="flex flex-wrap items-center gap-3 text-sm fade-in">
-              <span class="inline-flex items-center gap-1.5 text-text-secondary">
-                <span class="status-dot" aria-hidden="true" />
-                <span>Building at <strong class="text-text font-medium">Arontel</strong></span>
-              </span>
-              <span class="text-text-muted">•</span>
-              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-green-500/10 border border-green-500/20 rounded-full text-green-600 dark:text-green-400">
-                <span class="i-ph-sparkle w-3.5 h-3.5" aria-hidden="true" />
-                <span class="font-medium">Open to Opportunities</span>
-              </span>
-            </div>
+      <!--
+        HERO SECTION
+        ============
+        UX Pattern: Minimal Left-Aligned Hero
 
-            <!-- Name -->
-            <h1 class="text-display fade-in delay-1 hero-name">
-              Gagan Doddanna
+        Design Decisions:
+        - Name first (identity anchor)
+        - "Gagan" emphasized (how people know you)
+        - "Doddanna" muted (legal name preserved)
+        - Role simple, no years (let work speak)
+        - Hook: 3 short phrases (scannable, memorable)
+        - Single CTA (reduces decision fatigue)
+        - Credentials last, muted (for recruiters, not ego)
+
+        What was removed:
+        - "Building at X" status (redundant with Experience)
+        - "Open to Opportunities" badge (desperate energy)
+        - "2+ Years" (anchors as junior)
+        - Long paragraph (too much to scan)
+        - Second CTA (decision fatigue)
+        - Scroll indicator (redundant with CTA)
+      -->
+      <section class="hero-section">
+        <div class="container">
+          <div class="hero-content">
+            <!-- Name: Primary identity anchor -->
+            <h1 class="hero-name-wrapper fade-in">
+              <span class="hero-name-primary">Gagan</span>
+              <span class="hero-name-secondary">Doddanna</span>
             </h1>
 
-            <!-- Role -->
-            <p class="text-h3 text-text-secondary fade-in delay-2">
-              Frontend Engineer <span class="text-text-muted">•</span> 2+ Years
+            <!-- Role: Simple, clear bucket -->
+            <p class="hero-role fade-in delay-1">
+              Frontend Engineer
             </p>
 
-            <!-- Credentials -->
-            <div class="flex flex-wrap items-center gap-2 text-sm text-text-secondary fade-in delay-3">
-              <span class="inline-flex items-center gap-1.5">
-                <span class="i-ph-graduation-cap w-4 h-4 text-highlight" aria-hidden="true" />
-                MS CS, DePaul
-              </span>
-              <span class="text-text-muted">•</span>
-              <span class="inline-flex items-center gap-1.5">
-                <span class="i-ph-certificate w-4 h-4 text-highlight" aria-hidden="true" />
-                AWS Certified
-              </span>
-            </div>
-
-            <!-- Tagline - Confident -->
-            <p class="text-body-lg max-w-lg fade-in delay-3 pt-2">
-              I build complex frontend systems — large-scale dashboards, real-time UIs, and production platforms that handle thousands of data points.
+            <!-- Hook: Short, punchy, scannable -->
+            <p class="hero-hook fade-in delay-2">
+              Enterprise dashboards. Real-time data. Production scale.
             </p>
 
-            <!-- CTAs -->
-            <div class="flex flex-wrap gap-3 pt-4 fade-in delay-4">
+            <!-- Single CTA: Clear action -->
+            <div class="hero-cta fade-in delay-3">
               <a href="#work" class="btn-primary">
                 View Work
                 <span class="i-ph-arrow-right w-4 h-4" aria-hidden="true" />
               </a>
-              <a href="/resume.pdf" class="btn-secondary" target="_blank" rel="noopener">
-                Resume
-                <span class="i-ph-file-text w-4 h-4" aria-hidden="true" />
-              </a>
             </div>
 
-            <!-- Scroll Indicator -->
-            <div class="pt-8 fade-in delay-4">
-              <a href="#work" class="inline-flex items-center gap-2 text-text-muted text-sm hover:text-text transition-colors">
-                <span class="i-ph-arrow-down w-4 h-4 animate-bounce" aria-hidden="true" />
-                Scroll to see work
-              </a>
-            </div>
+            <!-- Credentials: For recruiters, muted -->
+            <p class="hero-credentials fade-in delay-4">
+              MS CS, DePaul · AWS Certified
+            </p>
           </div>
         </div>
       </section>
 
-      <!-- Companies Strip -->
-      <section class="py-6 border-y border-border bg-bg-subtle" aria-label="Companies worked with">
+      <!--
+        COMPANIES STRIP
+        ===============
+        UX Pattern: Social Proof Bar
+
+        Design Decisions:
+        - Icons add visual weight (building icon for consistency)
+        - Centered layout for balance
+        - Subtle background separates from hero
+        - No real logos needed (hard to maintain, inconsistent sizes)
+      -->
+      <section class="companies-strip" aria-label="Companies worked with">
         <div class="container">
-          <div class="flex flex-row flex-wrap items-center justify-center gap-x-8 gap-y-2">
-            <span class="text-xs text-text-muted uppercase tracking-wide">Worked at</span>
-            <span class="text-text-muted hidden sm:inline">•</span>
-            <div class="flex flex-row items-center gap-6 sm:gap-8">
+          <div class="companies-content">
+            <span class="companies-label">Worked at</span>
+            <div class="companies-list">
               <span
-                v-for="(company, index) in companies"
+                v-for="company in companies"
                 :key="company.name"
-                class="text-sm font-medium text-text-secondary hover:text-text transition-colors"
+                class="company-item"
               >
-                {{ company.name }}<span v-if="index < companies.length - 1" class="text-text-muted ml-6 sm:ml-8 hidden sm:inline">•</span>
+                <span class="i-ph-buildings w-4 h-4" aria-hidden="true" />
+                <span>{{ company.name }}</span>
               </span>
             </div>
           </div>
@@ -343,9 +377,9 @@ const skills = {
       </section>
 
       <!-- Selected Work -->
-      <section id="work" class="py-16 md:py-20">
+      <section id="work" class="section-large">
         <div class="container">
-          <h2 class="text-h2 mb-6 section-title">Selected Work</h2>
+          <h2 class="text-h2 mb-8 section-title">Selected Work</h2>
 
           <div class="space-y-4">
             <!-- Featured Project (Arontel) -->
@@ -409,9 +443,9 @@ const skills = {
       </section>
 
       <!-- Experience -->
-      <section id="experience" class="py-16 md:py-20 border-t border-border">
+      <section id="experience" class="section-large border-t border-border">
         <div class="container">
-          <h2 class="text-h2 mb-6 section-title">Experience</h2>
+          <h2 class="text-h2 mb-8 section-title">Experience</h2>
           <div class="space-y-4">
             <article
               v-for="exp in experience"
@@ -434,9 +468,9 @@ const skills = {
       </section>
 
       <!-- Credentials: Education + Certifications -->
-      <section class="py-12 bg-bg-subtle border-y border-border">
+      <section class="section-medium bg-bg-subtle border-y border-border">
         <div class="container">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
             <!-- Education -->
             <div>
               <h2 class="text-meta mb-4">Education</h2>
@@ -468,9 +502,9 @@ const skills = {
       </section>
 
       <!-- Skills -->
-      <section class="py-12">
+      <section class="section-medium">
         <div class="container">
-          <h2 class="text-meta mb-5">Technical Stack</h2>
+          <h2 class="text-meta mb-6">Technical Stack</h2>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <div v-for="(items, category) in skills" :key="category">
               <h3 class="text-sm font-medium mb-2 text-text-secondary">{{ category }}</h3>
@@ -485,10 +519,10 @@ const skills = {
       </section>
 
       <!-- Contact -->
-      <section id="contact" class="py-16 border-t border-border">
+      <section id="contact" class="section-large border-t border-border">
         <div class="container text-center max-w-xl mx-auto">
-          <h2 class="text-h2 mb-3">Let's build something together.</h2>
-          <p class="text-body mb-6">Open to new opportunities — full-time, freelance, or collaboration.</p>
+          <h2 class="text-h2 mb-4">Let's build something together.</h2>
+          <p class="text-body mb-8">Open to opportunities — full-time, contract, or collaboration.</p>
           <div class="flex flex-wrap justify-center items-center gap-3">
             <a href="mailto:gagandoddanna@gmail.com" class="btn-primary">
               <span class="i-ph-envelope w-4 h-4" aria-hidden="true" />
@@ -522,11 +556,57 @@ const skills = {
     </main>
 
     <!-- Footer -->
-    <footer class="py-6 border-t border-border">
-      <div class="container flex flex-col sm:flex-row items-center justify-between gap-2 text-small text-text-muted">
-        <p>© {{ new Date().getFullYear() }} Gagan Doddanna</p>
-        <p>Built with Nuxt 3</p>
+    <footer class="footer-section">
+      <div class="container">
+        <div class="footer-content">
+          <p class="footer-copyright">© {{ new Date().getFullYear() }} Gagan Doddanna</p>
+          <p class="footer-tagline">Built with Nuxt 3. Fueled by coffee.</p>
+        </div>
       </div>
     </footer>
+
+    <!--
+      SECTION INDICATORS
+      ==================
+      UX Pattern: Progress/Navigation Dots
+
+      Shows current section position.
+      Clickable for quick navigation.
+      Hidden on mobile (screen too small).
+    -->
+    <nav class="section-indicators" aria-label="Page sections">
+      <button
+        v-for="section in sections"
+        :key="section"
+        :class="['indicator-dot', { active: activeSection === section }]"
+        :aria-label="`Go to ${section}`"
+        :aria-current="activeSection === section ? 'true' : undefined"
+        @click="() => {
+          const el = document.getElementById(section === 'hero' ? 'main' : section)
+          el?.scrollIntoView({ behavior: 'smooth' })
+        }"
+      >
+        <span class="indicator-tooltip">{{ section.charAt(0).toUpperCase() + section.slice(1) }}</span>
+      </button>
+    </nav>
+
+    <!--
+      SCROLL TO TOP
+      =============
+      UX Pattern: Back-to-top FAB
+
+      Appears after scrolling 400px.
+      Fixed position, bottom-right.
+    -->
+    <Transition name="fade-scale">
+      <button
+        v-if="showScrollTop"
+        class="scroll-to-top"
+        aria-label="Scroll to top"
+        @click="scrollToTop"
+      >
+        <span class="i-ph-arrow-up w-5 h-5" aria-hidden="true" />
+      </button>
+    </Transition>
   </div>
 </template>

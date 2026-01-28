@@ -278,6 +278,41 @@ ul, ol {
   padding: 0 var(--space-6);
 }
 
+/* ============================================
+   Section Spacing System
+   ============================================
+   Consistent vertical rhythm across the page.
+
+   Large:  Hero, Work, Experience, Contact (primary sections)
+   Medium: Credentials, Skills (secondary sections)
+   Small:  Companies strip, Footer (supporting elements)
+   ============================================ */
+
+.section-large {
+  padding: var(--space-16) 0;
+}
+
+.section-medium {
+  padding: var(--space-12) 0;
+}
+
+.section-small {
+  padding: var(--space-6) 0;
+}
+
+@media (min-width: 768px) {
+  .section-large {
+    padding: var(--space-24) 0;
+  }
+  .section-medium {
+    padding: var(--space-16) 0;
+  }
+  .section-small {
+    padding: var(--space-8) 0;
+  }
+}
+
+/* Legacy classes (keep for backward compatibility) */
 .section {
   padding: var(--space-16) 0;
 }
@@ -293,6 +328,239 @@ ul, ol {
   .section-sm {
     padding: var(--space-16) 0;
   }
+}
+
+/* ============================================
+   Companies Strip
+   ============================================
+   UX Pattern: Social Proof Bar
+
+   Design:
+   - Subtle background separates from hero
+   - Icons provide visual weight
+   - Centered layout for balance
+   ============================================ */
+
+.companies-strip {
+  padding: var(--space-6) 0;
+  background: var(--color-bg-subtle);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.companies-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4) var(--space-6);
+}
+
+.companies-label {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+}
+
+.companies-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+}
+
+@media (min-width: 640px) {
+  .companies-list {
+    gap: var(--space-8);
+  }
+}
+
+.company-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.company-item:hover {
+  color: var(--color-text);
+}
+
+.company-item span:first-child {
+  color: var(--color-text-muted);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.company-item:hover span:first-child {
+  color: var(--color-highlight);
+}
+
+/* ============================================
+   Footer
+   ============================================
+   Clean, minimal footer with personality.
+   "Fueled by coffee" = subtle dev humor.
+   ============================================ */
+
+.footer-section {
+  padding: var(--space-8) 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .footer-content {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+.footer-copyright {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.footer-tagline {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  opacity: 0.8;
+}
+
+/* ============================================
+   Section Indicators (Navigation Dots)
+   ============================================
+   UX Pattern: Progress indicators
+
+   - Fixed position on right side
+   - Shows current section
+   - Clickable for navigation
+   - Tooltip on hover
+   - Hidden on mobile (not enough space)
+   ============================================ */
+
+.section-indicators {
+  display: none;
+  position: fixed;
+  right: var(--space-6);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+@media (min-width: 1024px) {
+  .section-indicators {
+    display: flex;
+  }
+}
+
+.indicator-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-border);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  position: relative;
+}
+
+.indicator-dot:hover {
+  background: var(--color-text-muted);
+  transform: scale(1.2);
+}
+
+.indicator-dot.active {
+  background: var(--color-highlight);
+  border-color: var(--color-highlight);
+  box-shadow: 0 0 10px rgba(60, 223, 255, 0.4);
+}
+
+/* Tooltip */
+.indicator-tooltip {
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  padding: var(--space-1) var(--space-3);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--color-text);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.indicator-dot:hover .indicator-tooltip {
+  opacity: 1;
+}
+
+/* ============================================
+   Scroll to Top Button
+   ============================================
+   UX Pattern: Back-to-top FAB
+
+   - Appears after scrolling
+   - Fixed bottom-right position
+   - Smooth scroll behavior
+   ============================================ */
+
+.scroll-to-top {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  z-index: 40;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  box-shadow: var(--shadow-md);
+}
+
+.scroll-to-top:hover {
+  border-color: var(--color-border-hover);
+  color: var(--color-highlight);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md), var(--glow-highlight);
+}
+
+/* Fade + Scale transition for scroll-to-top */
+.fade-scale-enter-active,
+.fade-scale-leave-active {
+  transition: opacity var(--duration-normal) var(--ease-out),
+              transform var(--duration-normal) var(--ease-out);
+}
+
+.fade-scale-enter-from,
+.fade-scale-leave-to {
+  opacity: 0;
+  transform: scale(0.8);
 }
 
 /* ============================================
@@ -506,7 +774,104 @@ ul, ol {
 }
 
 /* ============================================
-   Components: Hero Name (Standout Element)
+   Components: Hero Section
+   ============================================
+   UX Pattern: Minimal Left-Aligned Hero
+
+   Hierarchy:
+   1. Name (largest) - identity anchor
+   2. Role - clear mental bucket
+   3. Hook - value proposition
+   4. CTA - single action
+   5. Credentials - muted, for recruiters
+
+   Mobile: Same hierarchy, responsive sizing
+   ============================================ */
+
+.hero-section {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  padding: var(--space-16) 0;
+}
+
+@media (min-width: 768px) {
+  .hero-section {
+    min-height: 85vh;
+    padding: var(--space-24) 0;
+  }
+}
+
+.hero-content {
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Hero Name - Primary + Secondary pattern */
+.hero-name-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  line-height: 1.1;
+  margin-bottom: var(--space-2);
+}
+
+/* "Gagan" - Emphasized, memorable */
+.hero-name-primary {
+  font-size: clamp(3rem, 10vw, 4.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+}
+
+.dark .hero-name-primary {
+  background: linear-gradient(135deg, #FFFFFF 0%, #3CDFFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* "Doddanna" - Present but de-emphasized */
+.hero-name-secondary {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--color-text-muted);
+}
+
+/* Role - Simple, clear */
+.hero-role {
+  font-size: var(--text-xl);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  margin-top: var(--space-2);
+}
+
+/* Hook - Short, punchy phrases */
+.hero-hook {
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  max-width: 480px;
+  margin-top: var(--space-2);
+}
+
+/* CTA - Single, prominent action */
+.hero-cta {
+  margin-top: var(--space-6);
+}
+
+/* Credentials - Muted, for recruiters */
+.hero-credentials {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-4);
+}
+
+/* ============================================
+   LEGACY: Hero Name (keeping for case studies)
    ============================================ */
 
 .hero-name {
