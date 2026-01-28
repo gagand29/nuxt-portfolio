@@ -3,6 +3,11 @@
  * Landing Page
  * Frontend Engineer Portfolio - Enterprise, Clean, Recruiter-Ready
  *
+ * Layout Pattern: Left-Aligned Stacked Hero
+ * - Consistent left alignment for content sections
+ * - Center alignment only for standalone CTAs
+ * - Mobile-first responsive design
+ *
  * Principles:
  * - Show real production work
  * - Enterprise-grade presentation
@@ -25,6 +30,34 @@ useHead({
 
 // Color mode
 const toggleColorMode = inject('toggleColorMode') as () => void
+
+// Mobile menu state
+const isMobileMenuOpen = ref(false)
+
+const toggleMobileMenu = () => {
+  isMobileMenuOpen.value = !isMobileMenuOpen.value
+}
+
+const closeMobileMenu = () => {
+  isMobileMenuOpen.value = false
+}
+
+// Close menu on escape key
+onMounted(() => {
+  const handleEscape = (e: KeyboardEvent) => {
+    if (e.key === 'Escape' && isMobileMenuOpen.value) {
+      closeMobileMenu()
+    }
+  }
+  document.addEventListener('keydown', handleEscape)
+  onUnmounted(() => document.removeEventListener('keydown', handleEscape))
+})
+
+// Close menu on route change (if clicking nav links)
+watch(isMobileMenuOpen, (isOpen) => {
+  // Prevent body scroll when menu is open
+  document.body.style.overflow = isOpen ? 'hidden' : ''
+})
 
 // === DATA ===
 
@@ -49,9 +82,9 @@ const projects = [
   {
     slug: 'ai-interview',
     title: 'AI Interview Platform',
-    description: 'Real-time AI interviews with live transcription.',
-    outcome: '<500ms response · 95% accuracy',
-    tech: ['React', 'Next.js', 'OpenAI'],
+    description: 'Early-stage prototype for recruiter and candidate workflows. Built under tight deadlines with fast pivots.',
+    outcome: 'Demo-ready in days · UX-first design',
+    tech: ['React', 'Next.js', 'Firebase', 'AWS'],
     company: '2ndSight.ai',
   },
   {
@@ -126,24 +159,99 @@ const skills = {
     <!-- Header -->
     <header class="fixed top-0 left-0 right-0 z-50 bg-[var(--header-bg)] border-b border-border backdrop-blur-md">
       <div class="container flex items-center justify-between h-16">
+        <!-- Logo -->
         <a href="#" class="logo">
           <span>G</span><span class="logo-highlight">D</span>
         </a>
-        <nav class="hidden md:flex items-center gap-1">
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center gap-1" aria-label="Main navigation">
           <a href="#work" class="nav-link">Work</a>
           <a href="#experience" class="nav-link">Experience</a>
           <a href="#contact" class="nav-link">Contact</a>
           <a href="/resume.pdf" target="_blank" rel="noopener" class="nav-link">Resume</a>
         </nav>
-        <button
-          class="btn-icon"
-          aria-label="Toggle theme"
-          @click="toggleColorMode"
-        >
-          <span class="i-ph-sun w-5 h-5 dark:hidden" />
-          <span class="i-ph-moon w-5 h-5 hidden dark:block" />
-        </button>
+
+        <!-- Right side actions -->
+        <div class="flex items-center gap-2">
+          <!-- Theme toggle -->
+          <button
+            class="btn-icon"
+            aria-label="Toggle theme"
+            @click="toggleColorMode"
+          >
+            <span class="i-ph-sun w-5 h-5 dark:hidden" />
+            <span class="i-ph-moon w-5 h-5 hidden dark:block" />
+          </button>
+
+          <!-- Mobile menu toggle -->
+          <button
+            class="btn-icon md:hidden"
+            :aria-label="isMobileMenuOpen ? 'Close menu' : 'Open menu'"
+            aria-controls="mobile-menu"
+            :aria-expanded="isMobileMenuOpen"
+            @click="toggleMobileMenu"
+          >
+            <span v-if="!isMobileMenuOpen" class="i-ph-list w-5 h-5" />
+            <span v-else class="i-ph-x w-5 h-5" />
+          </button>
+        </div>
       </div>
+
+      <!-- Mobile Navigation Drawer -->
+      <Transition name="mobile-menu">
+        <div
+          v-if="isMobileMenuOpen"
+          id="mobile-menu"
+          class="md:hidden absolute top-16 left-0 right-0 bg-bg border-b border-border shadow-lg"
+        >
+          <nav class="container py-4" aria-label="Mobile navigation">
+            <div class="flex flex-col gap-1">
+              <a
+                href="#work"
+                class="mobile-nav-link"
+                @click="closeMobileMenu"
+              >
+                Work
+              </a>
+              <a
+                href="#experience"
+                class="mobile-nav-link"
+                @click="closeMobileMenu"
+              >
+                Experience
+              </a>
+              <a
+                href="#contact"
+                class="mobile-nav-link"
+                @click="closeMobileMenu"
+              >
+                Contact
+              </a>
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener"
+                class="mobile-nav-link"
+                @click="closeMobileMenu"
+              >
+                Resume
+                <span class="i-ph-arrow-up-right w-4 h-4 text-text-muted" aria-hidden="true" />
+              </a>
+            </div>
+          </nav>
+        </div>
+      </Transition>
+
+      <!-- Backdrop for mobile menu -->
+      <Transition name="fade">
+        <div
+          v-if="isMobileMenuOpen"
+          class="md:hidden fixed inset-0 top-16 bg-black/50 z-[-1]"
+          aria-hidden="true"
+          @click="closeMobileMenu"
+        />
+      </Transition>
     </header>
 
     <main id="main" class="pt-16">

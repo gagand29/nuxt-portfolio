@@ -574,6 +574,52 @@ ul, ol {
   color: var(--color-text);
 }
 
+/* Mobile Navigation */
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: var(--color-text);
+  border-radius: var(--radius-md);
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link:focus {
+  background: var(--color-accent-subtle);
+}
+
+.mobile-nav-link:active {
+  background: var(--color-bg-subtle);
+}
+
+/* Mobile Menu Transitions */
+.mobile-menu-enter-active,
+.mobile-menu-leave-active {
+  transition: transform var(--duration-normal) var(--ease-out),
+              opacity var(--duration-normal) var(--ease-out);
+}
+
+.mobile-menu-enter-from,
+.mobile-menu-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+/* Fade transition for backdrop */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
 /* ============================================
    Components: Status
    ============================================ */

@@ -22,7 +22,10 @@ interface Project {
   operationalModel?: string
   stateModel?: { category: string; states: string[] }[]
   operatorUx?: string[]
+  uxSectionTitle?: string
+  uxSectionIntro?: string
   scalabilityStrategy?: string[]
+  engineeringSectionTitle?: string
   owned: string[]
   impact: { metric: string; label: string }[]
   patterns: { engineering: string[]; ux?: string[] }
@@ -151,55 +154,83 @@ const projects: Record<string, Project> = {
 
   'ai-interview': {
     title: 'AI Interview Platform',
-    subtitle: 'Real-time interview system with AI-powered assessment and transcription',
-    role: 'Full-Stack Engineer',
-    stack: ['React', 'Next.js', 'OpenAI', 'Firebase', 'WebSocket'],
-    scale: 'Concurrent sessions · real-time streaming',
+    subtitle: 'Early-stage product prototype built to validate recruiter and candidate workflows under tight deadlines',
+    role: 'Frontend-heavy Full-Stack Engineer',
+    stack: ['React', 'Next.js', 'TypeScript', 'Firebase', 'AWS Lambda', 'DynamoDB'],
+    scale: '4-month prototype · demo-driven development',
 
-    context: 'Automated interview platform that conducts AI-powered conversations, transcribes responses in real-time, and provides structured assessment feedback.',
+    context: 'Built during an early startup phase with rapidly evolving requirements. The goal was to validate interview workflows quickly, not to build a fully scaled AI system. This taught me how to ship under uncertainty and design UIs that feel stable even when backend systems are still evolving.',
 
     reality: [
-      'Real-time audio streaming required',
-      'Concurrent interview sessions',
-      'Sub-second response expectations',
-      'Unreliable network conditions',
+      'Short timelines (days, not months)',
+      'Demo-driven development cycles',
+      'Changing product direction mid-sprint',
+      'Non-technical end users (recruiters)',
+      'Limited backend maturity',
+      'Fast pivots based on feedback',
     ],
 
     problem: [
-      'Manual interviews are inconsistent and biased',
-      'Transcription delays break conversation flow',
-      'AI responses feel robotic without careful prompting',
-      'Network issues disrupt live sessions',
+      'Recruiters needed a structured, believable interview experience',
+      'Too many concepts to explain (AI, audio, video, roles)',
+      'First-time users under demo pressure',
+      'UI needed to feel stable even when systems changed',
+      'Complex flows with audio, TTS, and real-time state',
     ],
 
+    operatorUx: [
+      'Visual hierarchy — primary actions always visible',
+      'Progressive disclosure — advanced options hidden by default',
+      'Action clarity — View / Edit / Delete always explicit',
+      'State visibility — interview status always visible',
+      'Predictable flow — no surprise transitions',
+    ],
+    uxSectionTitle: 'UX Intent',
+    uxSectionIntro: 'The UI was designed to reduce cognitive load, keep demos predictable, and guide first-time users through complex flows.',
+
+    engineeringSectionTitle: 'Engineering Focus',
+
     scalabilityStrategy: [
-      'WebSocket architecture for bi-directional streaming',
-      'Chunked audio processing with overlap buffers',
-      'Conversation state machine for natural flow',
-      'Optimistic UI with background sync',
+      'Component-first architecture for fast iteration',
+      'Optimistic UI where possible for perceived speed',
+      'Simple CRUD patterns before optimization',
+      'Iterative improvements instead of rewrites',
+      'Cloud choices optimized for iteration speed and demo reliability',
     ],
 
     owned: [
-      'Real-time WebSocket infrastructure',
-      'OpenAI streaming API integration',
-      'Conversation state machine design',
-      'Audio pipeline with fallbacks',
+      'Recruiter dashboard design and implementation',
+      'Role and agent configuration UI',
+      'Candidate interview screen',
+      'Audio + TTS integration layer',
+      'API integration and data flow architecture',
+      'Fast prototyping for investor demos',
     ],
 
     impact: [
-      { metric: '<500ms', label: 'Response time' },
-      { metric: '95%', label: 'Transcription accuracy' },
-      { metric: '3x', label: 'Interview throughput' },
+      { metric: 'Days', label: 'To demo-ready' },
+      { metric: '3+', label: 'Major pivots' },
+      { metric: '100%', label: 'Demo success rate' },
     ],
 
     patterns: {
       engineering: [
+        'Component-first',
+        'Optimistic UI',
         'Event-driven',
-        'State machines',
-        'Streaming APIs',
         'Graceful degradation',
       ],
+      ux: [
+        'Progressive disclosure',
+        'State visibility',
+        'Action clarity',
+        'Predictable flow',
+      ],
     },
+
+    realWorld: 'The product direction evolved after the initial prototype. My contribution focused on building working systems under ambiguity, not defining the final business model.',
+
+    collaboration: 'Worked directly with founders to iterate on product direction and translate business requirements into working prototypes.',
   },
 
   'movie-platform': {
@@ -458,11 +489,11 @@ const otherProjects = computed(() => {
         </div>
       </section>
 
-      <!-- Operator-First UX -->
+      <!-- UX Section -->
       <section v-if="project.operatorUx" class="content-section fade-in">
         <div class="container">
-          <h2 class="section-title section-title-accent">Operator-First UX</h2>
-          <p class="model-intro">Built for speed and safety, not aesthetics.</p>
+          <h2 class="section-title section-title-accent">{{ project.uxSectionTitle || 'Operator-First UX' }}</h2>
+          <p class="model-intro">{{ project.uxSectionIntro || 'Built for speed and safety, not aesthetics.' }}</p>
           <ul class="content-list">
             <li v-for="item in project.operatorUx" :key="item">
               <span class="list-marker accent">→</span>
@@ -472,10 +503,10 @@ const otherProjects = computed(() => {
         </div>
       </section>
 
-      <!-- Scalability Strategy -->
+      <!-- Scalability / Engineering Strategy -->
       <section v-if="project.scalabilityStrategy" class="content-section fade-in">
         <div class="container">
-          <h2 class="section-title section-title-accent">Scalability Strategy</h2>
+          <h2 class="section-title section-title-accent">{{ project.engineeringSectionTitle || 'Scalability Strategy' }}</h2>
           <ul class="content-list">
             <li v-for="item in project.scalabilityStrategy" :key="item">
               <span class="list-marker accent">→</span>

@@ -96,6 +96,7 @@ export default defineConfig({
     'i-ph-arrow-left',
     'i-ph-arrow-right',
     'i-ph-arrow-up-right',
+    'i-ph-arrow-down',
     'i-ph-github-logo',
     'i-ph-linkedin-logo',
     'i-ph-envelope',
@@ -116,5 +117,6 @@ export default defineConfig({
     'i-ph-certificate',
     'i-ph-map-pin',
     'i-ph-buildings',
+    'i-ph-sparkle',
   ],
 })
